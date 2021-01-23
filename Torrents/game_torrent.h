@@ -4,8 +4,8 @@
 
 class game_torrent : public Torrent
 {
-    string platform;
-    char maturity_rating;
+    const string platform;
+    const char maturity_rating;
 public:
     game_torrent(string platform, char maturaty_rating, string Title,
                  unsigned int size, string uploadded_by, unsigned int downloads);

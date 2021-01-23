@@ -15,9 +15,16 @@ software_torrent::software_torrent(const software_torrent &torrent) : creator(to
 string software_torrent::toString() const
 {
     stringstream ss;
-    ss << Title << ", " << size << ", " << uploaded_by << ", " << downloads;
-    ss << ", " << creator << ", " << os << ", " << version[0] << "." << version[1] << "." << version[2];
+    ss << Torrent::toString()
+    << "Creator: " << creator << ", "
+    << "   OS: " << os << ", "
+    << "   Version: " << version[0] << "." << version[1] << "." << version[2];
     string ret;
     ss >> ret;
     return ret;
+}
+
+unsigned int software_torrent::get_major_version() const
+{
+    return this->version[0];
 }

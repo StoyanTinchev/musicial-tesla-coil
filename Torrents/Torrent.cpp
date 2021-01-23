@@ -12,3 +12,19 @@ Torrent::Torrent(const Torrent &torrent) : Title(torrent.Title), size(torrent.si
 string Torrent::get_title() const{
     return this->Title;
 }
+
+string Torrent::get_uploaded_by() const
+{
+    return this->uploaded_by;
+}
+
+string Torrent::toString() const {
+    stringstream ss;
+    ss << "Title: " << Title << ", "
+    <<"   Size: "<< size << ", "
+    <<"   uploaded_by: " << uploaded_by << ", "
+    <<"   downloads: " << downloads << endl;
+    string ret;
+    ss >> ret;
+    return ret;
+}

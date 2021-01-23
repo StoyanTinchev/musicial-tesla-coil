@@ -14,9 +14,17 @@ film_torrent::film_torrent(const film_torrent &torrent) : director(torrent.direc
 string film_torrent::toString() const
 {
     stringstream ss;
-    ss << Title << ", " << size << ", " << uploaded_by << ", " << downloads;
-    ss << ", " << director << ", " << duration << ", " << language;
+    ss<< "Film torrent"<<endl
+    << Torrent::toString()
+    <<"Director: " << director << ", "
+    << "   Duration: " << duration << ", "
+    << "   Language: " << language;
     string ret;
     ss >> ret;
     return ret;
+}
+
+string film_torrent::get_director_name() const
+{
+    return this->director;
 }

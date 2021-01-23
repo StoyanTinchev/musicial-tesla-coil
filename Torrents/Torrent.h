@@ -21,6 +21,7 @@ public:
     Torrent(const Torrent &torrent);
 
     string get_title() const;
-    virtual string toString() const = 0;
+    string get_uploaded_by() const;
+    virtual string toString() const;
 };
 #endif

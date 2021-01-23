@@ -19,8 +19,9 @@ char game_torrent::get_maturity_rating() const
 string game_torrent::toString() const
 {
     stringstream ss;
-    ss << Title << ", " << size << ", " << uploaded_by << ", " << downloads;
-    ss << ", " << platform << ", " << maturity_rating;
+    ss << Torrent::toString()
+    << "Platform: " << platform << ", "
+    << "   Maturity rating: " << maturity_rating;
     string ret;
     ss >> ret;
     return ret;
