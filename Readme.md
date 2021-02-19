@@ -8,14 +8,6 @@ Reworked musical tesla coil
 
 
 
-
-Authors: Stoyan Tinchev and Alexandar Alexandrov
---------
-<br><br><br>
-
-
-
-
 Description:
 --------
 Reworked musical tesla coil in smaller scaling. Using an application with which we choose a song and send it to the coil interrupter.<br>
@@ -90,6 +82,7 @@ Optional:
 
 
 
+Authors: Stoyan Tinchev and Alexandar Alexandrov
+--------
 
-Александър Александров 11А, Стоян Тинчев 11А
 
