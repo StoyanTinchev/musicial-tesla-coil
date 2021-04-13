@@ -1,8 +1,16 @@
 package com.example.musicapp;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -11,17 +19,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.widget.Toast;
-
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -29,21 +26,20 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
 {
     public static final int REQUEST_CODE = 1;
-    ArrayList<MusicFile> musicFiles;
-    @RequiresApi(api = Build.VERSION_CODES.R)
+    static ArrayList<MusicFile> musicFiles;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         permission();
-        initViewPager();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.R)
     private void permission()
     {
-        if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED)
         {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}
@@ -51,12 +47,11 @@ public class MainActivity extends AppCompatActivity
         }
         else
         {
-            Toast.makeText(this, "Permission Granted!", Toast.LENGTH_SHORT).show();
             musicFiles = getAllAudio(this);
+            initViewPager();
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
     {
@@ -65,8 +60,8 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == REQUEST_CODE)
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {
-                Toast.makeText(this, "Permission Granted!", Toast.LENGTH_SHORT).show();
                 musicFiles = getAllAudio(this);
+                initViewPager();
             }
             else
             {
@@ -90,6 +85,7 @@ public class MainActivity extends AppCompatActivity
     {
         private ArrayList<Fragment> fragments;
         private ArrayList<String> titles;
+
         public ViewPagerAdapter(@NonNull FragmentManager fm)
         {
             super(fm);
@@ -102,6 +98,7 @@ public class MainActivity extends AppCompatActivity
             this.fragments.add(fragment);
             this.titles.add(title);
         }
+
         @NonNull
         @Override
         public Fragment getItem(int position)
@@ -123,7 +120,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.R)
     public static ArrayList<MusicFile> getAllAudio(Context context)
     {
         ArrayList<MusicFile> tempAudioList = new ArrayList<>();
