@@ -35,53 +35,6 @@ Strategy of development - Kanban
 
 
 
-First Milestone:
---------
-1. Creating an android app with android studio and java that lists all “.wav” files from phone<br>
-	a. Be able to work with all android mobile phones<br>
-	b. Be able to upload it to the phone<br>
-2. Creating a project schematic
-3. The interrupter software<br>
-	a. Be able to read song via Bluetooth<br>
-	b. Be able to split and store it<br>
-	c. Output value dependent PWM signal
-<br><br><br>
-
-
-
-
-Second Milestone:
---------
-1. Building the hardware<br>
-	a. Creating the SSTC(Solid State Tesla Coil) driver<br>
-	b. Creating the SSTC interrupter<br>
-2. Upgrade phone application so you can send one of the pre-listed “.wav” files via bluetooth<br>
-3. Creating an complete mp3 player for mobile phone with android studio.<br>
-	a. Be able to play/pause song<br>
-	b. Be able to switch songs<br>
-	c. Be able to create albums
-<br><br><br>
-
-
-
-Third Milestone:
---------
-1. Upgrade the design<br>
-2. Code reviews and optimizations<br>
-3. Unit tests
-<br><br><br>
-
-
-
-
-Optional:
---------
-1. Adding AUX input to the interrupter<br>
-	a. Be able directly from the computer to play song to the tesla coil
-<br><br><br>
-
-
-
 Authors: Stoyan Tinchev and Alexandar Alexandrov
 --------
 
