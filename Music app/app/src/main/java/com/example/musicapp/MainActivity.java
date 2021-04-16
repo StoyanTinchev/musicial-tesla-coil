@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity
 
         public ViewPagerAdapter(@NonNull FragmentManager fm)
         {
-            super(fm);
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
             this.fragments = new ArrayList<>();
             this.titles = new ArrayList<>();
         }
