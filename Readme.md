@@ -1,6 +1,6 @@
 
 
-<h1 align="center">Reworked musical tesla coil</h1> <br><br>
+<h1 align="center">Reworked musical tesla coil</h1> <br>
 
 
 <h2>Description:</h2>
