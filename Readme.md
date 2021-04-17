@@ -13,8 +13,9 @@ The software for the interrupter will wait for upload command, after which the p
 <br>
 
 ## How to install:
-With your android phone click [here](https://drive.google.com/drive/folders/1HosFVmRzxvioICeHo3vdVdEkMbiyzbBV?usp=sharing) \
-Next - open the only file in the link. The installation must start. Play protect, or your google api service may recognize it as virus but don't worry - just install!
+With your android phone click [here](https://drive.google.com/file/d/1hvmjaKKLcVOmwQG_RgDjd7zN8inDXilg/view?usp=sharing) \
+Start the installation by clicking download. \
+Play protect, or your google api service may recognize it as virus but don't worry - just install! \
 After the installation is completed, you will see new icon with name "Music app". That's it!
 
 ## Technologies:
