@@ -12,7 +12,7 @@ The software for the interrupter will wait for upload command, after which the p
 
 
 ## How to install:
-With your android phone follow this <a href="https://drive.google.com/file/d/1hvmjaKKLcVOmwQG_RgDjd7zN8inDXilg/view">link</a>. Start the installation by choosing with what to open current file. Then click install.<br>
+With your android phone follow this <a href="https://drive.google.com/drive/folders/1HosFVmRzxvioICeHo3vdVdEkMbiyzbBV?usp=sharing">link</a>. Start the installation by choosing with what to open current file. Then click install.<br>
 <img src="installation_pictures/choose_package_manager.jpg" width=30%> 
 <img src="installation_pictures/click_install.jpg" width=30%> \
 Play protect, or your google api service may recognize it as virus but don't worry - just install! <br>
