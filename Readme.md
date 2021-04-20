@@ -32,11 +32,13 @@ After the installation is completed, you will see new icon with name "Music app"
    
 
 ## Management:
-**Branching Strategy – [GitHub Flow](https://guides.github.com/introduction/flow/)**<br>
-Our modification of this model will be that before pull request with master branch - a new branch developer must be created. In this branch, the pull requests are made to interconnected code (at the same time code reviews are made), which is previously divided into other branches. Then, before pulling a request from the developer to the master branch, you need to review the whole new feature.
->“Talk is cheap. Show me the code.”
+>Branching Strategy – [GitHub Flow](https://guides.github.com/introduction/flow/)
 
-**Strategy of development - Kanban**
+Our modification of this model will be that before pull request with master branch - a new branch developer must be created. In this branch, the pull requests are made to interconnected code (at the same time code reviews are made), which is previously divided into other branches. Then, before pulling a request from the developer to the master branch, you need to review the whole new feature.  
+***“Talk is cheap. Show me the code.***
+<br>
+>Strategy of development - Kanban
+
 <br><br>
 
 
