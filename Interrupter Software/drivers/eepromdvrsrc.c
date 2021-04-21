@@ -31,4 +31,6 @@ int _writeByte(uint16_t addr, uint8_t data){
 
 	EECR |= _BV(EEMPE);
 	EECR |= _BV(EEPE);
+
+	return 0;
 }		
