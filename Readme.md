@@ -25,7 +25,7 @@ After the installation is completed, you will see new icon with name "Music app"
 
 ## Technologies:
 1. Java<br>
-2. HTML<br>
+2. XML<br>
 3. C / C++<br>
 4. Embedded
 <br>
