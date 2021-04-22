@@ -22,7 +22,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2a75306-2553-41ef-b376-07c80db1627a" name="Default Changelist" comment="dev documentation" />
+    <list default="true" id="d2a75306-2553-41ef-b376-07c80db1627a" name="Default Changelist" comment="update readme management tag" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -72,7 +72,7 @@
       <recent name="$PROJECT_DIR$/Music app/gradle" />
     </key>
   </component>
-  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -87,6 +87,7 @@
       <workItem from="1618602707703" duration="916000" />
       <workItem from="1618654188731" duration="4157000" />
       <workItem from="1618659770009" duration="18000" />
+      <workItem from="1618949646704" duration="65000" />
     </task>
     <task id="LOCAL-00001" summary="Dev documentation">
       <created>1618656205823</created>
@@ -151,7 +152,14 @@
       <option name="project" value="LOCAL" />
       <updated>1618737786886</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="update readme management tag">
+      <created>1618949662180</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1618949662180</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -173,23 +181,10 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Dev documentation" />
     <MESSAGE value="Dev documentation upgrade" />
-    <MESSAGE value="dev documentation" />
     <MESSAGE value="split .gitignore" />
     <MESSAGE value="update .gitignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="update .gitignore" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="555" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1618737791452">
-      <screen x="0" y="27" width="1920" height="1053" />
-    </state>
-    <state x="555" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1618737791452" />
-    <state x="754" y="469" width="412" height="175" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1618662600624">
-      <screen x="0" y="27" width="1920" height="1053" />
-    </state>
-    <state x="754" y="469" width="412" height="175" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.27.1920.1053@0.27.1920.1053" timestamp="1618662600624" />
-    <state x="8" y="35" width="948" height="1037" key="dock-window-1" timestamp="1618663144358">
-      <screen x="0" y="27" width="1920" height="1053" />
-    </state>
-    <state x="8" y="35" width="948" height="1037" key="dock-window-1/0.27.1920.1053@0.27.1920.1053" timestamp="1618663144358" />
+    <MESSAGE value="dev documentation" />
+    <MESSAGE value="update readme management tag" />
+    <option name="LAST_COMMIT_MESSAGE" value="update readme management tag" />
   </component>
 </project>
