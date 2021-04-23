@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -133,6 +134,7 @@ public class MainActivity extends AppCompatActivity
                         MediaStore.Audio.Media.DATA,
                         MediaStore.Audio.Media.ARTIST
                 };
+
         Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
 
 
