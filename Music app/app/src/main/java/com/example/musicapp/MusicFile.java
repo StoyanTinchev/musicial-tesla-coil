@@ -26,4 +26,19 @@ public class MusicFile
     {
         return path;
     }
+
+    public String getAlbum()
+    {
+        return album;
+    }
+
+    public String getArtist()
+    {
+        return artist;
+    }
+
+    public String getDuration()
+    {
+        return duration;
+    }
 }
