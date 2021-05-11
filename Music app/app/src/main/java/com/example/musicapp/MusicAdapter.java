@@ -1,6 +1,7 @@
 package com.example.musicapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaMetadataRetriever;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +20,8 @@ import java.util.ArrayList;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder>
 {
-    private Context mContext;
-    private ArrayList<MusicFile> mFiles;
+    private final Context mContext;
+    private final ArrayList<MusicFile> mFiles;
 
     public MusicAdapter(Context mContext, ArrayList<MusicFile> mFiles)
     {
@@ -71,6 +72,12 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
                     .load(R.drawable.musicimage)
                     .into(holder.album_art);
         }
+        holder.itemView.setOnClickListener(v ->
+        {
+            Intent intent = new Intent(mContext, PlayerActivity.class);
+            intent.putExtra("position", position);
+            mContext.startActivity(intent);
+        });
     }
 
     @Override
@@ -79,7 +86,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         return mFiles.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder
+    public static class MyViewHolder extends RecyclerView.ViewHolder
     {
         TextView file_name;
         ImageView album_art;
