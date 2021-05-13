@@ -2,6 +2,7 @@ package com.example.musicapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaMetadataRetriever;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -22,6 +24,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
 {
     private final Context mContext;
     private final ArrayList<MusicFile> mFiles;
+    private MyViewHolder prev = null;
 
     public MusicAdapter(Context mContext, ArrayList<MusicFile> mFiles)
     {
@@ -55,6 +58,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position)
     {
         holder.file_name.setText(mFiles.get(position).getTitle());
+        holder.album_name.setText(mFiles.get(position).getAlbum());
         byte[] image = null;
         if (mFiles.get(position).getPath() != null && isPathValid(mFiles.get(position).getPath()))
         {
@@ -74,9 +78,19 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         }
         holder.itemView.setOnClickListener(v ->
         {
+            if (prev == null)
+                prev = holder;
+            else
+            {
+                prev.file_name.setTextColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.black));
+                prev.album_name.setTextColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.black));
+                prev = holder;
+            }
             Intent intent = new Intent(mContext, PlayerActivity.class);
             intent.putExtra("position", position);
             mContext.startActivity(intent);
+            holder.file_name.setTextColor(Color.parseColor("#3F51B5"));
+            holder.album_name.setTextColor(Color.parseColor("#32408f"));
         });
     }
 
@@ -88,13 +102,14 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
 
     public static class MyViewHolder extends RecyclerView.ViewHolder
     {
-        TextView file_name;
+        TextView file_name, album_name;
         ImageView album_art;
 
         public MyViewHolder(@NonNull View itemView)
         {
             super(itemView);
             file_name = itemView.findViewById(R.id.music_file_name);
+            album_name = itemView.findViewById(R.id.album_file_name);
             album_art = itemView.findViewById(R.id.music_img);
         }
     }

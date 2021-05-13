@@ -5,15 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/mContainer"
-    android:background="@drawable/main_for_player"
+    android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".PlayerActivity">
+    tools:context=".PlayerActivity"
+    android:src="@drawable/gradient_for_player2">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/layout_top_btn"
-        android:background="@drawable/gradient_for_player"
         android:layout_alignParentTop="true">
 
         <ImageView
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="Now Playing"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/black"
             android:layout_toEndOf="@+id/back_btn"
             android:layout_toStartOf="@+id/menu_btn"
             android:gravity="center_horizontal"
@@ -71,12 +71,13 @@
         android:text="This is song Name"
         android:id="@+id/song_name"
         android:layout_below="@+id/card"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/black"
         android:gravity="center_horizontal"
-        android:textSize="22sp"
+        android:textSize="28sp"
         android:textStyle="bold"
         android:singleLine="true"
         android:ellipsize="end"
+        android:layout_marginTop="40dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"/>
 
@@ -86,9 +87,9 @@
         android:text="This is song Artist"
         android:id="@+id/song_artist"
         android:layout_below="@+id/song_name"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/black"
         android:gravity="center_horizontal"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:singleLine="true"
         android:ellipsize="end"
         android:layout_marginStart="40dp"
@@ -96,12 +97,11 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="100dp"
         android:id="@+id/relative_layout_fot_bottom"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:background="@drawable/gradient_for_player">
+        android:layout_alignParentEnd="true">
 
         <ImageView
             android:layout_width="35dp"
@@ -154,7 +154,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_above="@+id/relative_layout_fot_bottom"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/seek_bar_layout">
 
         <TextView
@@ -162,23 +162,26 @@
             android:layout_height="wrap_content"
             android:text="1:20"
             android:id="@+id/durationPlayed"
-            android:textColor="@color/colorAccent"
-            android:layout_marginStart="10dp"
-            android:layout_alignParentStart="true"/>
+            android:textColor="@color/black"
+            android:layout_marginStart="27dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="4:20"
                 android:id="@+id/durationTotal"
-                android:textColor="@color/colorAccent"
-                android:layout_marginEnd="10dp"
-                android:layout_alignParentEnd="true"/>
+                android:textColor="@color/black"
+                android:layout_marginEnd="27dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"/>
         <SeekBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:progressBackgroundTint="#5e5e5e"
             android:id="@+id/seekBard"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_alignParentBottom="true"/>
+            android:layout_marginEnd="20dp"/>
     </RelativeLayout>
 </RelativeLayout>

@@ -314,11 +314,8 @@ public class PlayerActivity extends AppCompatActivity
             mediaPlayer.stop();
             mediaPlayer.release();
         }
-        else
-        {
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
-            mediaPlayer.start();
-        }
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
+        mediaPlayer.start();
         seekBar.setMax(mediaPlayer.getDuration() / 1000);
         metaData(uri);
     }
