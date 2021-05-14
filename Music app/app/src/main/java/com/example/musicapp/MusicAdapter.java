@@ -2,6 +2,7 @@ package com.example.musicapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaMetadataRetriever;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -22,6 +24,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
 {
     private final Context mContext;
     private final ArrayList<MusicFile> mFiles;
+    private int row_index = -1;
 
     public MusicAdapter(Context mContext, ArrayList<MusicFile> mFiles)
     {
@@ -85,10 +88,24 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         }
         holder.itemView.setOnClickListener(v ->
         {
+            row_index = position;
+            notifyDataSetChanged();
             Intent intent = new Intent(mContext, PlayerActivity.class);
             intent.putExtra("position", position);
             mContext.startActivity(intent);
         });
+        if (row_index == position)
+        {
+            holder.file_name.setTextColor(Color.parseColor("#008B8B"));
+            holder.album_name.setTextColor(Color.parseColor("#008B8B"));
+            holder.duration.setTextColor(Color.parseColor("#008B8B"));
+        }
+        else
+        {
+            holder.file_name.setTextColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.black));
+            holder.album_name.setTextColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.black));
+            holder.duration.setTextColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.black));
+        }
     }
 
     @Override

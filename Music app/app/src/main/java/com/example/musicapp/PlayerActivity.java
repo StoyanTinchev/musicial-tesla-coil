@@ -1,6 +1,5 @@
 package com.example.musicapp;
 
-import android.graphics.Color;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;

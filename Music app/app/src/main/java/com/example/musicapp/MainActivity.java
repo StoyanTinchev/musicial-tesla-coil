@@ -4,10 +4,12 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -134,9 +136,8 @@ public class MainActivity extends AppCompatActivity
                         MediaStore.Audio.Media.ARTIST
                 };
 
-        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
-
-
+        Cursor cursor = context.getContentResolver().query(uri, projection,
+                MediaStore.Audio.Media.IS_MUSIC + "=1", null,null);
         if (cursor != null)
         {
             while (cursor.moveToNext())
