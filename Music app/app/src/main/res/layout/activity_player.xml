@@ -170,7 +170,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="4:20"
-                android:id="@+id/durationTotal"
+                android:id="@+id/duration"
                 android:textColor="@color/black"
                 android:layout_marginEnd="27dp"
                 android:layout_alignParentEnd="true"

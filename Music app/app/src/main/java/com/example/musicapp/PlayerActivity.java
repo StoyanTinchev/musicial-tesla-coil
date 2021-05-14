@@ -1,11 +1,12 @@
 package com.example.musicapp;
 
+import android.graphics.Color;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
+import android.os.Looper;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -29,7 +30,6 @@ public class PlayerActivity extends AppCompatActivity
     ArrayList<MusicFile> listSongs = new ArrayList<>();
     static Uri uri;
     static MediaPlayer mediaPlayer;
-    private final Handler handler = new Handler();
     private Thread playThread, prevThread, nextThread;
 
     @Override
@@ -73,7 +73,7 @@ public class PlayerActivity extends AppCompatActivity
                     seekBar.setProgress(mCurrentPosition);
                     duration_played.setText(formattedTime(mCurrentPosition));
                 }
-                handler.postDelayed(this, 1000);
+                new Handler(Looper.getMainLooper()).postDelayed(this, 10);
             }
         });
     }
@@ -124,7 +124,7 @@ public class PlayerActivity extends AppCompatActivity
                         int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
                         seekBar.setProgress(mCurrentPosition);
                     }
-                    handler.postDelayed(this, 1000);
+                    new Handler(Looper.getMainLooper()).postDelayed(this, 10);
                 }
             });
             playPauseBtn.setImageResource(R.drawable.ic_pause);
@@ -151,7 +151,7 @@ public class PlayerActivity extends AppCompatActivity
                         int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
                         seekBar.setProgress(mCurrentPosition);
                     }
-                    handler.postDelayed(this, 1000);
+                    new Handler(Looper.getMainLooper()).postDelayed(this, 10);
                 }
             });
             playPauseBtn.setImageResource(R.drawable.ic_play_arrow);
@@ -195,7 +195,7 @@ public class PlayerActivity extends AppCompatActivity
                         int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
                         seekBar.setProgress(mCurrentPosition);
                     }
-                    handler.postDelayed(this, 1000);
+                    new Handler(Looper.getMainLooper()).postDelayed(this, 10);
                 }
             });
             playPauseBtn.setImageResource(R.drawable.ic_pause);
@@ -222,7 +222,7 @@ public class PlayerActivity extends AppCompatActivity
                         int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
                         seekBar.setProgress(mCurrentPosition);
                     }
-                    handler.postDelayed(this, 1000);
+                    new Handler(Looper.getMainLooper()).postDelayed(this, 10);
                 }
             });
             playPauseBtn.setImageResource(R.drawable.ic_play_arrow);
@@ -260,7 +260,7 @@ public class PlayerActivity extends AppCompatActivity
                         int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
                         seekBar.setProgress(mCurrentPosition);
                     }
-                    handler.postDelayed(this, 1000);
+                    new Handler(Looper.getMainLooper()).postDelayed(this, 10);
                 }
             });
         }
@@ -279,13 +279,13 @@ public class PlayerActivity extends AppCompatActivity
                         int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
                         seekBar.setProgress(mCurrentPosition);
                     }
-                    handler.postDelayed(this, 1000);
+                    new Handler(Looper.getMainLooper()).postDelayed(this, 10);
                 }
             });
         }
     }
 
-    private String formattedTime(int mCurrentPosition)
+    public static String formattedTime(int mCurrentPosition)
     {
         String totalOut;
         String totalNew;
@@ -325,7 +325,7 @@ public class PlayerActivity extends AppCompatActivity
         song_name = findViewById(R.id.song_name);
         artist_name = findViewById(R.id.song_artist);
         duration_played = findViewById(R.id.durationPlayed);
-        duration_total = findViewById(R.id.durationTotal);
+        duration_total = findViewById(R.id.duration);
         cover_art = findViewById(R.id.cover_art);
         nextBtn = findViewById(R.id.id_next);
         prevBtn = findViewById(R.id.id_prev);
