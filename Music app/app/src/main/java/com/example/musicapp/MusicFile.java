@@ -7,14 +7,22 @@ public class MusicFile
     private final String duration;
     private final String path;
     private final String artist;
+    private final String id;
 
-    public MusicFile(String album, String title, String duration, String path, String artist)
+    public MusicFile(String album, String title, String duration, String path,
+                     String artist, String id)
     {
         this.album = album;
         this.title = title;
         this.duration = duration;
         this.path = path;
         this.artist = artist;
+        this.id = id;
+    }
+
+    public String getId()
+    {
+        return id;
     }
 
     public String getTitle()

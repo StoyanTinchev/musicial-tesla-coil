@@ -134,7 +134,8 @@ public class MainActivity extends AppCompatActivity
                         MediaStore.Audio.Media.TITLE,
                         MediaStore.Audio.Media.DURATION,
                         MediaStore.Audio.Media.DATA,
-                        MediaStore.Audio.Media.ARTIST
+                        MediaStore.Audio.Media.ARTIST,
+                        MediaStore.Audio.Media._ID
                 };
 
         Cursor cursor = context.getContentResolver().query(uri, projection,
@@ -148,8 +149,9 @@ public class MainActivity extends AppCompatActivity
                 String duration = cursor.getString(2);
                 String path = cursor.getString(3);
                 String artist = cursor.getString(4);
+                String id = cursor.getString(5);
 
-                MusicFile musicFile = new MusicFile(album, title, duration, path, artist);
+                MusicFile musicFile = new MusicFile(album, title, duration, path, artist, id);
 
                 Log.e("Path: " + path, " Album: " + album);
 

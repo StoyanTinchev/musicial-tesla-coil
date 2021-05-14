@@ -1,21 +1,29 @@
 package com.example.musicapp;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaMetadataRetriever;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -106,6 +114,46 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
             holder.album_name.setTextColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.black));
             holder.duration.setTextColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.black));
         }
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(final View v)
+            {
+                PopupMenu popupMenu = new PopupMenu(mContext, v);
+                popupMenu.getMenuInflater().inflate(R.menu.popup, popupMenu.getMenu());
+                popupMenu.show();
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item)
+                    {
+                        if (item.getItemId() == R.id.delete)
+                        {
+                            Toast.makeText(mContext, "Delete clicked!!", Toast.LENGTH_SHORT).show();
+                            deleteFile(position, v);
+                        }
+                        return true;
+                    }
+                });
+                return true;
+            }
+        });
+    }
+    private void deleteFile(int position, View view)
+    {
+        Uri contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                Long.parseLong(mFiles.get(position).getId()));
+        File file = new File(mFiles.get(position).getPath());
+        boolean deleted = file.delete(); // delete file
+        if (deleted)
+        {
+            mContext.getContentResolver().delete(contentUri, null, null);
+            mFiles.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, mFiles.size());
+            Snackbar.make(view, "File deleted: ", Snackbar.LENGTH_LONG).show();
+        }
+        // else is when the file is in the sd card
+        else
+            Snackbar.make(view, "Can't be deleted!", Snackbar.LENGTH_LONG).show();
     }
 
     @Override
