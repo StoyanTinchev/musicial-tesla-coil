@@ -23,7 +23,7 @@ import static com.example.musicapp.MainActivity.musicFiles;
 import static com.example.musicapp.MainActivity.repeatBoolean;
 import static com.example.musicapp.MainActivity.shuffleBoolean;
 
-public class PlayerActivity extends AppCompatActivity
+public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener
 {
     TextView song_name, artist_name, duration_played, duration_total;
     ImageView cover_art, nextBtn, prevBtn, backBtn, shuffleBtn, repeatBtn;
@@ -44,6 +44,7 @@ public class PlayerActivity extends AppCompatActivity
         getIntentMethod();
         song_name.setText(listSongs.get(position).getTitle());
         artist_name.setText(listSongs.get(position).getArtist());
+        mediaPlayer.setOnCompletionListener(this);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
         {
             @Override
@@ -168,7 +169,8 @@ public class PlayerActivity extends AppCompatActivity
                     new Handler(Looper.getMainLooper()).postDelayed(this, 10);
                 }
             });
-            playPauseBtn.setImageResource(R.drawable.ic_pause);
+            mediaPlayer.setOnCompletionListener(this);
+            playPauseBtn.setBackgroundResource(R.drawable.ic_pause);
             mediaPlayer.start();
         }
         else
@@ -201,7 +203,8 @@ public class PlayerActivity extends AppCompatActivity
                     new Handler(Looper.getMainLooper()).postDelayed(this, 10);
                 }
             });
-            playPauseBtn.setImageResource(R.drawable.ic_play_arrow);
+            mediaPlayer.setOnCompletionListener(this);
+            playPauseBtn.setBackgroundResource(R.drawable.ic_play_arrow);
         }
     }
 
@@ -251,7 +254,8 @@ public class PlayerActivity extends AppCompatActivity
                     new Handler(Looper.getMainLooper()).postDelayed(this, 10);
                 }
             });
-            playPauseBtn.setImageResource(R.drawable.ic_pause);
+            mediaPlayer.setOnCompletionListener(this);
+            playPauseBtn.setBackgroundResource(R.drawable.ic_pause);
             mediaPlayer.start();
         }
         else
@@ -285,7 +289,8 @@ public class PlayerActivity extends AppCompatActivity
                     new Handler(Looper.getMainLooper()).postDelayed(this, 10);
                 }
             });
-            playPauseBtn.setImageResource(R.drawable.ic_play_arrow);
+            mediaPlayer.setOnCompletionListener(this);
+            playPauseBtn.setBackgroundResource(R.drawable.ic_play_arrow);
         }
     }
 
@@ -422,6 +427,18 @@ public class PlayerActivity extends AppCompatActivity
                     .asBitmap()
                     .load(R.drawable.musicimage)
                     .into(cover_art);
+        }
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp)
+    {
+        nextBtnClicked();
+        if (mediaPlayer != null)
+        {
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
+            mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(this);
         }
     }
 }
