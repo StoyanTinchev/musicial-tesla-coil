@@ -1,15 +1,13 @@
-package com.example.musicapp;
+package com.example.musicapp.Activities;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.webkit.MimeTypeMap;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +19,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.musicapp.Fragments.AlbumFragment;
+import com.example.musicapp.Fragments.SongsFragment;
+import com.example.musicapp.Musics.MusicFile;
+import com.example.musicapp.R;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -28,8 +30,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
 {
     public static final int REQUEST_CODE = 1;
-    static ArrayList<MusicFile> musicFiles;
-
+    public static ArrayList<MusicFile> musicFiles;
+    public static boolean shuffleBoolean = false, repeatBoolean = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -133,7 +135,8 @@ public class MainActivity extends AppCompatActivity
                         MediaStore.Audio.Media.TITLE,
                         MediaStore.Audio.Media.DURATION,
                         MediaStore.Audio.Media.DATA,
-                        MediaStore.Audio.Media.ARTIST
+                        MediaStore.Audio.Media.ARTIST,
+                        MediaStore.Audio.Media._ID
                 };
 
         Cursor cursor = context.getContentResolver().query(uri, projection,
@@ -147,8 +150,9 @@ public class MainActivity extends AppCompatActivity
                 String duration = cursor.getString(2);
                 String path = cursor.getString(3);
                 String artist = cursor.getString(4);
+                String id = cursor.getString(5);
 
-                MusicFile musicFile = new MusicFile(album, title, duration, path, artist);
+                MusicFile musicFile = new MusicFile(album, title, duration, path, artist, id);
 
                 Log.e("Path: " + path, " Album: " + album);
 
