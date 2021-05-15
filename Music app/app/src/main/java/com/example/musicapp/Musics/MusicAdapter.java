@@ -68,6 +68,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position)
     {
+//        if (musicFiles.get(position).color == null)
+//            musicFiles.get(position).setColor(Color.valueOf(ContextCompat.getColor(mContext.getApplicationContext(), R.color.black)));
         String file_name_text = musicFiles.get(position).getTitle();
         String album_name_text = musicFiles.get(position).getAlbum();
         if (file_name_text.length() > 26)
@@ -81,6 +83,11 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         byte[] image = null;
         if (musicFiles.get(position).getPath() != null && isPathValid(musicFiles.get(position).getPath()))
             image = getAlbumArt(musicFiles.get(position).getPath());
+
+//        if (mediaPlayer != null && mediaPlayer.isPlaying() && mediaPlayer.getDuration() == Integer.parseInt(musicFiles.get(position).getDuration()))
+//        {
+//            row_index = position;
+//        }
         if (image != null)
         {
             Glide.with(mContext).asBitmap()
@@ -174,7 +181,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         }
     }
 
-    private byte[] getAlbumArt(String uri)
+    public static byte[] getAlbumArt(String uri)
     {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         retriever.setDataSource(uri);

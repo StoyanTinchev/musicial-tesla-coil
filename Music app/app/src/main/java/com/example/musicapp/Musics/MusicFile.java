@@ -10,6 +10,12 @@ public class MusicFile
     private final String path;
     private final String artist;
     private final String id;
+//    public Color color = null;
+//
+//    public void setColor(Color color)
+//    {
+//        this.color = color;
+//    }
 
     public MusicFile(String album, String title, String duration, String path,
                      String artist, String id)

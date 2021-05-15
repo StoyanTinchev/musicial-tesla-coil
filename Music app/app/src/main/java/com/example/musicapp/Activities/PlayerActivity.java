@@ -24,6 +24,7 @@ import java.util.Random;
 import static com.example.musicapp.Activities.MainActivity.musicFiles;
 import static com.example.musicapp.Activities.MainActivity.repeatBoolean;
 import static com.example.musicapp.Activities.MainActivity.shuffleBoolean;
+import static com.example.musicapp.Musics.AlbumDetailsAdapter.albumFiles;
 
 public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener
 {
@@ -377,7 +378,11 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
     private void getIntentMethod()
     {
         position = getIntent().getIntExtra("position", -1);
-        listSongs = musicFiles;
+        String sender = getIntent().getStringExtra("sender");
+        if (sender != null && sender.equals("albumDetails"))
+            listSongs = albumFiles;
+        else
+            listSongs = musicFiles;
         if (listSongs != null)
         {
             playPauseBtn.setImageResource(R.drawable.ic_pause);

@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity
     public static final int REQUEST_CODE = 1;
     public static ArrayList<MusicFile> musicFiles;
     public static boolean shuffleBoolean = false, repeatBoolean = false;
-
+    public static ArrayList<MusicFile> albums = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity
 
     public static ArrayList<MusicFile> getAllAudio(Context context)
     {
+        ArrayList<String> duplicate = new ArrayList<>();
         ArrayList<MusicFile> tempAudioList = new ArrayList<>();
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
 
@@ -157,6 +158,11 @@ public class MainActivity extends AppCompatActivity
                 Log.e("Path: " + path, " Album: " + album);
 
                 tempAudioList.add(musicFile);
+                if (!duplicate.contains(album))
+                {
+                    albums.add(musicFile);
+                    duplicate.add(album);
+                }
             }
             cursor.close();
         }
