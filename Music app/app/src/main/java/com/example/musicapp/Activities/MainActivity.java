@@ -1,15 +1,13 @@
-package com.example.musicapp;
+package com.example.musicapp.Activities;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.webkit.MimeTypeMap;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +19,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.musicapp.Fragments.AlbumFragment;
+import com.example.musicapp.Fragments.SongsFragment;
+import com.example.musicapp.Musics.MusicFile;
+import com.example.musicapp.R;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -28,9 +30,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
 {
     public static final int REQUEST_CODE = 1;
-    static ArrayList<MusicFile> musicFiles;
-    static boolean shuffleBoolean = false, repeatBoolean = false;
-
+    public static ArrayList<MusicFile> musicFiles;
+    public static boolean shuffleBoolean = false, repeatBoolean = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

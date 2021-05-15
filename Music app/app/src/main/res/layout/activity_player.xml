@@ -7,7 +7,7 @@
     android:id="@+id/mContainer"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".PlayerActivity"
+    tools:context=".Activities.PlayerActivity"
     android:src="@drawable/gradient_for_player2">
 
     <RelativeLayout

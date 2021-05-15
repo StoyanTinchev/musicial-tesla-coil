@@ -1,4 +1,6 @@
-package com.example.musicapp;
+package com.example.musicapp.Musics;
+
+import android.graphics.Color;
 
 public class MusicFile
 {

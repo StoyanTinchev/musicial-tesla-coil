@@ -1,4 +1,4 @@
-package com.example.musicapp;
+package com.example.musicapp.Activities;
 
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
@@ -14,14 +14,16 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.musicapp.Musics.MusicFile;
+import com.example.musicapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import static com.example.musicapp.MainActivity.musicFiles;
-import static com.example.musicapp.MainActivity.repeatBoolean;
-import static com.example.musicapp.MainActivity.shuffleBoolean;
+import static com.example.musicapp.Activities.MainActivity.musicFiles;
+import static com.example.musicapp.Activities.MainActivity.repeatBoolean;
+import static com.example.musicapp.Activities.MainActivity.shuffleBoolean;
 
 public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener
 {
@@ -32,7 +34,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
     int position = -1;
     ArrayList<MusicFile> listSongs = new ArrayList<>();
     static Uri uri;
-    static MediaPlayer mediaPlayer;
+    public static MediaPlayer mediaPlayer;
     private Thread playThread, prevThread, nextThread;
 
     @Override
@@ -148,6 +150,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             else if (!shuffleBoolean && !repeatBoolean)
                 position = ((position - 1) < 0 ? (listSongs.size() - 1) : (position - 1));
             // else position will be the same ...
+
 
 
             uri = Uri.parse(listSongs.get(position).getPath());

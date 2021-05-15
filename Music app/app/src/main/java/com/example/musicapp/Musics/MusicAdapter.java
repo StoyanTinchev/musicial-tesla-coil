@@ -1,4 +1,4 @@
-package com.example.musicapp;
+package com.example.musicapp.Musics;
 
 import android.content.ContentUris;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,13 +15,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.musicapp.Activities.PlayerActivity;
+import com.example.musicapp.R;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
@@ -28,16 +30,17 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import static com.example.musicapp.Activities.MainActivity.musicFiles;
+import static com.example.musicapp.Activities.PlayerActivity.mediaPlayer;
+
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder>
 {
     private final Context mContext;
-    private final ArrayList<MusicFile> mFiles;
     private int row_index = -1;
 
-    public MusicAdapter(Context mContext, ArrayList<MusicFile> mFiles)
+    public MusicAdapter(Context mContext)
     {
         this.mContext = mContext;
-        this.mFiles = mFiles;
     }
 
     @NonNull
@@ -65,8 +68,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position)
     {
-        String file_name_text = mFiles.get(position).getTitle();
-        String album_name_text = mFiles.get(position).getAlbum();
+        String file_name_text = musicFiles.get(position).getTitle();
+        String album_name_text = musicFiles.get(position).getAlbum();
         if (file_name_text.length() > 26)
             file_name_text = file_name_text.substring(0, 26) + "...";
 
@@ -75,13 +78,9 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
 
         holder.file_name.setText(file_name_text);
         holder.album_name.setText(album_name_text);
-        int durationTotal = Integer.parseInt(mFiles.get(position).getDuration()) / 1000;
-        holder.duration.setText(PlayerActivity.formattedTime(durationTotal));
         byte[] image = null;
-        if (mFiles.get(position).getPath() != null && isPathValid(mFiles.get(position).getPath()))
-        {
-            image = getAlbumArt(mFiles.get(position).getPath());
-        }
+        if (musicFiles.get(position).getPath() != null && isPathValid(musicFiles.get(position).getPath()))
+            image = getAlbumArt(musicFiles.get(position).getPath());
         if (image != null)
         {
             Glide.with(mContext).asBitmap()
@@ -106,50 +105,48 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         {
             holder.file_name.setTextColor(Color.parseColor("#008B8B"));
             holder.album_name.setTextColor(Color.parseColor("#008B8B"));
-            holder.duration.setTextColor(Color.parseColor("#008B8B"));
         }
         else
         {
             holder.file_name.setTextColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.black));
             holder.album_name.setTextColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.black));
-            holder.duration.setTextColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.black));
         }
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.menuMore.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public boolean onLongClick(final View v)
+            public void onClick(final View v)
             {
                 PopupMenu popupMenu = new PopupMenu(mContext, v);
                 popupMenu.getMenuInflater().inflate(R.menu.popup, popupMenu.getMenu());
                 popupMenu.show();
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+                {
                     @Override
                     public boolean onMenuItemClick(MenuItem item)
                     {
                         if (item.getItemId() == R.id.delete)
-                        {
-                            Toast.makeText(mContext, "Delete clicked!!", Toast.LENGTH_SHORT).show();
                             deleteFile(position, v);
-                        }
+
                         return true;
                     }
                 });
-                return true;
             }
         });
     }
-    private void deleteFile(int position, View view)
+
+    public void deleteFile(int position, View view)
     {
         Uri contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                Long.parseLong(mFiles.get(position).getId()));
-        File file = new File(mFiles.get(position).getPath());
+                Long.parseLong(musicFiles.get(position).getId()));
+        File file = new File(musicFiles.get(position).getPath());
         boolean deleted = file.delete(); // delete file
         if (deleted)
         {
             mContext.getContentResolver().delete(contentUri, null, null);
-            mFiles.remove(position);
+            musicFiles.remove(position);
             notifyItemRemoved(position);
-            notifyItemRangeChanged(position, mFiles.size());
-            Snackbar.make(view, "File deleted: ", Snackbar.LENGTH_LONG).show();
+            notifyItemRangeChanged(position, musicFiles.size());
+            Snackbar.make(view, "File deleted", Snackbar.LENGTH_LONG).show();
         }
         // else is when the file is in the sd card
         else
@@ -159,13 +156,13 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
     @Override
     public int getItemCount()
     {
-        return mFiles.size();
+        return musicFiles.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder
     {
-        TextView file_name, album_name, duration;
-        ImageView album_art;
+        TextView file_name, album_name;
+        ImageView album_art, menuMore;
 
         public MyViewHolder(@NonNull View itemView)
         {
@@ -173,7 +170,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
             file_name = itemView.findViewById(R.id.music_file_name);
             album_name = itemView.findViewById(R.id.album_file_name);
             album_art = itemView.findViewById(R.id.music_img);
-            duration = itemView.findViewById(R.id.duration);
+            menuMore =  itemView.findViewById(R.id.menuMore);
         }
     }
 
