@@ -21,7 +21,7 @@ import static com.example.musicapp.Activities.MainActivity.musicFiles;
 public class SongsFragment extends Fragment
 {
     RecyclerView recyclerView;
-    MusicAdapter musicAdapter;
+    public static MusicAdapter musicAdapter;
 
     public SongsFragment() { }
 
@@ -34,7 +34,7 @@ public class SongsFragment extends Fragment
         recyclerView.setHasFixedSize(true);
         if (musicFiles.size() > 0)
         {
-            musicAdapter = new MusicAdapter(getContext());
+            musicAdapter = new MusicAdapter(getContext(), musicFiles);
             recyclerView.setAdapter(musicAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
@@ -68,4 +68,6 @@ public class SongsFragment extends Fragment
         musicFiles.add(newPos, musicFile);
         musicAdapter.notifyItemMoved(oldPos, newPos);
     }
+
+
 }

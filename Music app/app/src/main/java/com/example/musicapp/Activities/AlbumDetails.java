@@ -1,6 +1,8 @@
 package com.example.musicapp.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,8 +24,9 @@ public class AlbumDetails extends AppCompatActivity
     RecyclerView recyclerView;
     ImageView albumPhoto;
     String albumName;
-    ArrayList<MusicFile> albumSongs = new ArrayList<>();
-    AlbumDetailsAdapter albumDetailsAdapter;
+    public ArrayList<MusicFile> albumSongs = new ArrayList<>();
+    public static AlbumDetailsAdapter albumDetailsAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -63,6 +66,34 @@ public class AlbumDetails extends AppCompatActivity
             albumDetailsAdapter = new AlbumDetailsAdapter(this, albumSongs);
             recyclerView.setAdapter(albumDetailsAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
+            itemTouchHelper.attachToRecyclerView(recyclerView);
         }
+    }
+
+    private ItemTouchHelper.Callback createHelperCallback()
+    {
+        return new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP |
+                ItemTouchHelper.DOWN, 0)
+        {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView,
+                                  @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target)
+            {
+                moveItem(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+                return true;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) { }
+        };
+    }
+
+    public void moveItem(int oldPos, int newPos)
+    {
+        MusicFile musicFile = musicFiles.get(oldPos);
+        musicFiles.remove(oldPos);
+        musicFiles.add(newPos, musicFile);
+        albumDetailsAdapter.notifyItemMoved(oldPos, newPos);
     }
 }

@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
 {
+    static ArrayList<String> duplicate = new ArrayList<>();
     public static final int REQUEST_CODE = 1;
     public static ArrayList<MusicFile> musicFiles;
     public static boolean shuffleBoolean = false, repeatBoolean = false;
@@ -126,7 +127,6 @@ public class MainActivity extends AppCompatActivity
 
     public static ArrayList<MusicFile> getAllAudio(Context context)
     {
-        ArrayList<String> duplicate = new ArrayList<>();
         ArrayList<MusicFile> tempAudioList = new ArrayList<>();
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
 

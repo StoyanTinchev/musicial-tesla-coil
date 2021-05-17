@@ -1,5 +1,6 @@
 package com.example.musicapp.Activities;
 
+import android.graphics.Color;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -12,8 +13,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
+import com.example.musicapp.Fragments.SongsFragment;
 import com.example.musicapp.Musics.MusicFile;
 import com.example.musicapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,6 +37,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
     SeekBar seekBar;
     int position = -1;
     ArrayList<MusicFile> listSongs = new ArrayList<>();
+    public static MusicFile prev_song, curr_song;
     static Uri uri;
     public static MediaPlayer mediaPlayer;
     private Thread playThread, prevThread, nextThread;
@@ -83,7 +87,8 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
                 new Handler(Looper.getMainLooper()).postDelayed(this, 10);
             }
         });
-        shuffleBtn.setOnClickListener(new View.OnClickListener() {
+        shuffleBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v)
             {
@@ -99,7 +104,8 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
                 }
             }
         });
-        repeatBtn.setOnClickListener(new View.OnClickListener() {
+        repeatBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v)
             {
@@ -153,8 +159,20 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             // else position will be the same ...
 
 
-
             uri = Uri.parse(listSongs.get(position).getPath());
+            prev_song = listSongs.get(position);
+            curr_song = prev_song;
+            if (musicFiles.contains(curr_song))
+            {
+                for (MusicFile musicFile : musicFiles)
+                    if (musicFile == curr_song)
+                        musicFile.setColor(0);
+                    else
+                        musicFile.setColor(-1);
+                SongsFragment.musicAdapter.updateList(musicFiles);
+                if (albumFiles != null && albumFiles.contains(curr_song))
+                    AlbumDetails.albumDetailsAdapter.updateList(albumFiles);
+            }
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
             song_name.setText(listSongs.get(position).getTitle());
@@ -189,6 +207,19 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
 
 
             uri = Uri.parse(listSongs.get(position).getPath());
+            prev_song = listSongs.get(position);
+            curr_song = prev_song;
+            if (musicFiles.contains(curr_song))
+            {
+                for (MusicFile musicFile : musicFiles)
+                    if (musicFile == curr_song)
+                        musicFile.setColor(0);
+                    else
+                        musicFile.setColor(-1);
+                SongsFragment.musicAdapter.updateList(musicFiles);
+                if (albumFiles != null && albumFiles.contains(curr_song))
+                    AlbumDetails.albumDetailsAdapter.updateList(albumFiles);
+            }
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
             song_name.setText(listSongs.get(position).getTitle());
@@ -240,6 +271,19 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
 
 
             uri = Uri.parse(listSongs.get(position).getPath());
+            prev_song = listSongs.get(position);
+            curr_song = prev_song;
+            if (musicFiles.contains(curr_song))
+            {
+                for (MusicFile musicFile : musicFiles)
+                    if (musicFile == curr_song)
+                        musicFile.setColor(0);
+                    else
+                        musicFile.setColor(-1);
+                SongsFragment.musicAdapter.updateList(musicFiles);
+                if (albumFiles != null && albumFiles.contains(curr_song))
+                    AlbumDetails.albumDetailsAdapter.updateList(albumFiles);
+            }
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
             song_name.setText(listSongs.get(position).getTitle());
@@ -273,8 +317,20 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             // else position will be the same ...
 
 
-            position = ((position + 1) > (listSongs.size() - 1) ? 0 : (position + 1));
             uri = Uri.parse(listSongs.get(position).getPath());
+            prev_song = listSongs.get(position);
+            curr_song = prev_song;
+            if (musicFiles.contains(curr_song))
+            {
+                for (MusicFile musicFile : musicFiles)
+                    if (musicFile == curr_song)
+                        musicFile.setColor(0);
+                    else
+                        musicFile.setColor(-1);
+                SongsFragment.musicAdapter.updateList(musicFiles);
+                if (albumFiles != null && albumFiles.contains(curr_song))
+                    AlbumDetails.albumDetailsAdapter.updateList(albumFiles);
+            }
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
             song_name.setText(listSongs.get(position).getTitle());
@@ -383,15 +439,53 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             listSongs = albumFiles;
         else
             listSongs = musicFiles;
+        curr_song = listSongs != null ? listSongs.get(position) : null;
+
+
+        if (mediaPlayer != null)
+        {
+            if (prev_song == curr_song)
+            {
+                if (mediaPlayer.isPlaying())
+                    playPauseBtn.setImageResource(R.drawable.ic_pause);
+                else
+                    playPauseBtn.setImageResource(R.drawable.ic_play_arrow);
+
+                if (shuffleBoolean)
+                    shuffleBtn.setImageResource(R.drawable.ic_shuffle_on);
+                else
+                    shuffleBtn.setImageResource(R.drawable.ic_shuffle_off);
+
+                if (repeatBoolean)
+                    repeatBtn.setImageResource(R.drawable.ic_repeat_on);
+                else
+                    repeatBtn.setImageResource(R.drawable.ic_repeat_off);
+
+                uri = Uri.parse(listSongs.get(position).getPath());
+                seekBar.setMax(mediaPlayer.getDuration() / 1000);
+                seekBar.setProgress(mediaPlayer.getCurrentPosition() / 1000);
+                metaData(uri);
+                return;
+            }
+            mediaPlayer.stop();
+            mediaPlayer.release();
+        }
+        if (musicFiles != null && musicFiles.contains(curr_song))
+        {
+            for (MusicFile musicFile : musicFiles)
+                if (musicFile == curr_song)
+                    musicFile.setColor(0);
+                else
+                    musicFile.setColor(-1);
+            SongsFragment.musicAdapter.updateList(musicFiles);
+            if (albumFiles != null && albumFiles.contains(curr_song))
+                AlbumDetails.albumDetailsAdapter.updateList(albumFiles);
+        }
+        prev_song = curr_song;
         if (listSongs != null)
         {
             playPauseBtn.setImageResource(R.drawable.ic_pause);
             uri = Uri.parse(listSongs.get(position).getPath());
-        }
-        if (mediaPlayer != null)
-        {
-            mediaPlayer.stop();
-            mediaPlayer.release();
         }
         mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
         mediaPlayer.start();
