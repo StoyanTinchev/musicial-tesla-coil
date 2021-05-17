@@ -1,6 +1,5 @@
 package com.example.musicapp.Activities;
 
-import android.graphics.Color;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -13,21 +12,17 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.musicapp.Fragments.SongsFragment;
+import com.example.musicapp.Musics.AlbumDetailsAdapter;
+import com.example.musicapp.Musics.MusicAdapter;
 import com.example.musicapp.Musics.MusicFile;
 import com.example.musicapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Random;
-
-import static com.example.musicapp.Activities.MainActivity.musicFiles;
-import static com.example.musicapp.Activities.MainActivity.repeatBoolean;
-import static com.example.musicapp.Activities.MainActivity.shuffleBoolean;
-import static com.example.musicapp.Musics.AlbumDetailsAdapter.albumFiles;
 
 public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener
 {
@@ -92,14 +87,14 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             @Override
             public void onClick(View v)
             {
-                if (shuffleBoolean)
+                if (MainActivity.shuffleBoolean)
                 {
-                    shuffleBoolean = false;
+                    MainActivity.shuffleBoolean = false;
                     shuffleBtn.setImageResource(R.drawable.ic_shuffle_off);
                 }
                 else
                 {
-                    shuffleBoolean = true;
+                    MainActivity.shuffleBoolean = true;
                     shuffleBtn.setImageResource(R.drawable.ic_shuffle_on);
                 }
             }
@@ -109,14 +104,14 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             @Override
             public void onClick(View v)
             {
-                if (repeatBoolean)
+                if (MainActivity.repeatBoolean)
                 {
-                    repeatBoolean = false;
+                    MainActivity.repeatBoolean = false;
                     repeatBtn.setImageResource(R.drawable.ic_repeat_off);
                 }
                 else
                 {
-                    repeatBoolean = true;
+                    MainActivity.repeatBoolean = true;
                     repeatBtn.setImageResource(R.drawable.ic_repeat_on);
                 }
             }
@@ -152,9 +147,9 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         {
             mediaPlayer.stop();
             mediaPlayer.release();
-            if (shuffleBoolean && !repeatBoolean)
+            if (MainActivity.shuffleBoolean && !MainActivity.repeatBoolean)
                 position = getRandom(listSongs.size() - 1);
-            else if (!shuffleBoolean && !repeatBoolean)
+            else if (!MainActivity.shuffleBoolean && !MainActivity.repeatBoolean)
                 position = ((position - 1) < 0 ? (listSongs.size() - 1) : (position - 1));
             // else position will be the same ...
 
@@ -162,16 +157,16 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             uri = Uri.parse(listSongs.get(position).getPath());
             prev_song = listSongs.get(position);
             curr_song = prev_song;
-            if (musicFiles.contains(curr_song))
+            if (MainActivity.musicFiles.contains(curr_song))
             {
-                for (MusicFile musicFile : musicFiles)
+                for (MusicFile musicFile : MainActivity.musicFiles)
                     if (musicFile == curr_song)
                         musicFile.setColor(0);
                     else
                         musicFile.setColor(-1);
-                SongsFragment.musicAdapter.updateList(musicFiles);
-                if (albumFiles != null && albumFiles.contains(curr_song))
-                    AlbumDetails.albumDetailsAdapter.updateList(albumFiles);
+                SongsFragment.musicAdapter.updateList(MainActivity.musicFiles);
+                if (AlbumDetailsAdapter.albumFiles != null && AlbumDetailsAdapter.albumFiles.contains(curr_song))
+                    AlbumDetails.albumDetailsAdapter.updateList(AlbumDetailsAdapter.albumFiles);
             }
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
@@ -199,9 +194,9 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         {
             mediaPlayer.stop();
             mediaPlayer.release();
-            if (shuffleBoolean && !repeatBoolean)
+            if (MainActivity.shuffleBoolean && !MainActivity.repeatBoolean)
                 position = getRandom(listSongs.size() - 1);
-            else if (!shuffleBoolean && !repeatBoolean)
+            else if (!MainActivity.shuffleBoolean && !MainActivity.repeatBoolean)
                 position = ((position - 1) < 0 ? (listSongs.size() - 1) : (position - 1));
             // else position will be the same ...
 
@@ -209,16 +204,16 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             uri = Uri.parse(listSongs.get(position).getPath());
             prev_song = listSongs.get(position);
             curr_song = prev_song;
-            if (musicFiles.contains(curr_song))
+            if (MainActivity.musicFiles.contains(curr_song))
             {
-                for (MusicFile musicFile : musicFiles)
+                for (MusicFile musicFile : MainActivity.musicFiles)
                     if (musicFile == curr_song)
                         musicFile.setColor(0);
                     else
                         musicFile.setColor(-1);
-                SongsFragment.musicAdapter.updateList(musicFiles);
-                if (albumFiles != null && albumFiles.contains(curr_song))
-                    AlbumDetails.albumDetailsAdapter.updateList(albumFiles);
+                SongsFragment.musicAdapter.updateList(MainActivity.musicFiles);
+                if (AlbumDetailsAdapter.albumFiles != null && AlbumDetailsAdapter.albumFiles.contains(curr_song))
+                    AlbumDetails.albumDetailsAdapter.updateList(AlbumDetailsAdapter.albumFiles);
             }
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
@@ -263,9 +258,9 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         {
             mediaPlayer.stop();
             mediaPlayer.release();
-            if (shuffleBoolean && !repeatBoolean)
+            if (MainActivity.shuffleBoolean && !MainActivity.repeatBoolean)
                 position = getRandom(listSongs.size() - 1);
-            else if (!shuffleBoolean && !repeatBoolean)
+            else if (!MainActivity.shuffleBoolean && !MainActivity.repeatBoolean)
                 position = ((position + 1) > (listSongs.size() - 1) ? 0 : (position + 1));
             // else position will be the same ...
 
@@ -273,16 +268,16 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             uri = Uri.parse(listSongs.get(position).getPath());
             prev_song = listSongs.get(position);
             curr_song = prev_song;
-            if (musicFiles.contains(curr_song))
+            if (MainActivity.musicFiles.contains(curr_song))
             {
-                for (MusicFile musicFile : musicFiles)
+                for (MusicFile musicFile : MainActivity.musicFiles)
                     if (musicFile == curr_song)
                         musicFile.setColor(0);
                     else
                         musicFile.setColor(-1);
-                SongsFragment.musicAdapter.updateList(musicFiles);
-                if (albumFiles != null && albumFiles.contains(curr_song))
-                    AlbumDetails.albumDetailsAdapter.updateList(albumFiles);
+                SongsFragment.musicAdapter.updateList(MainActivity.musicFiles);
+                if (AlbumDetailsAdapter.albumFiles != null && AlbumDetailsAdapter.albumFiles.contains(curr_song))
+                    AlbumDetails.albumDetailsAdapter.updateList(AlbumDetailsAdapter.albumFiles);
             }
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
@@ -310,9 +305,9 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         {
             mediaPlayer.stop();
             mediaPlayer.release();
-            if (shuffleBoolean && !repeatBoolean)
+            if (MainActivity.shuffleBoolean && !MainActivity.repeatBoolean)
                 position = getRandom(listSongs.size() - 1);
-            else if (!shuffleBoolean && !repeatBoolean)
+            else if (!MainActivity.shuffleBoolean && !MainActivity.repeatBoolean)
                 position = ((position + 1) > (listSongs.size() - 1) ? 0 : (position + 1));
             // else position will be the same ...
 
@@ -320,16 +315,16 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             uri = Uri.parse(listSongs.get(position).getPath());
             prev_song = listSongs.get(position);
             curr_song = prev_song;
-            if (musicFiles.contains(curr_song))
+            if (MainActivity.musicFiles.contains(curr_song))
             {
-                for (MusicFile musicFile : musicFiles)
+                for (MusicFile musicFile : MainActivity.musicFiles)
                     if (musicFile == curr_song)
                         musicFile.setColor(0);
                     else
                         musicFile.setColor(-1);
-                SongsFragment.musicAdapter.updateList(musicFiles);
-                if (albumFiles != null && albumFiles.contains(curr_song))
-                    AlbumDetails.albumDetailsAdapter.updateList(albumFiles);
+                SongsFragment.musicAdapter.updateList(MainActivity.musicFiles);
+                if (AlbumDetailsAdapter.albumFiles != null && AlbumDetailsAdapter.albumFiles.contains(curr_song))
+                    AlbumDetails.albumDetailsAdapter.updateList(AlbumDetailsAdapter.albumFiles);
             }
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
@@ -436,9 +431,9 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         position = getIntent().getIntExtra("position", -1);
         String sender = getIntent().getStringExtra("sender");
         if (sender != null && sender.equals("albumDetails"))
-            listSongs = albumFiles;
+            listSongs = AlbumDetailsAdapter.albumFiles;
         else
-            listSongs = musicFiles;
+            listSongs = MusicAdapter.mFiles;
         curr_song = listSongs != null ? listSongs.get(position) : null;
 
 
@@ -451,12 +446,12 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
                 else
                     playPauseBtn.setImageResource(R.drawable.ic_play_arrow);
 
-                if (shuffleBoolean)
+                if (MainActivity.shuffleBoolean)
                     shuffleBtn.setImageResource(R.drawable.ic_shuffle_on);
                 else
                     shuffleBtn.setImageResource(R.drawable.ic_shuffle_off);
 
-                if (repeatBoolean)
+                if (MainActivity.repeatBoolean)
                     repeatBtn.setImageResource(R.drawable.ic_repeat_on);
                 else
                     repeatBtn.setImageResource(R.drawable.ic_repeat_off);
@@ -470,16 +465,16 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             mediaPlayer.stop();
             mediaPlayer.release();
         }
-        if (musicFiles != null && musicFiles.contains(curr_song))
+        if (MainActivity.musicFiles != null && MainActivity.musicFiles.contains(curr_song))
         {
-            for (MusicFile musicFile : musicFiles)
+            for (MusicFile musicFile : MainActivity.musicFiles)
                 if (musicFile == curr_song)
                     musicFile.setColor(0);
                 else
                     musicFile.setColor(-1);
-            SongsFragment.musicAdapter.updateList(musicFiles);
-            if (albumFiles != null && albumFiles.contains(curr_song))
-                AlbumDetails.albumDetailsAdapter.updateList(albumFiles);
+            SongsFragment.musicAdapter.updateList(MainActivity.musicFiles);
+            if (AlbumDetailsAdapter.albumFiles != null && AlbumDetailsAdapter.albumFiles.contains(curr_song))
+                AlbumDetails.albumDetailsAdapter.updateList(AlbumDetailsAdapter.albumFiles);
         }
         prev_song = curr_song;
         if (listSongs != null)

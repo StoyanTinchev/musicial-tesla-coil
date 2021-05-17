@@ -9,16 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.musicapp.Activities.MainActivity;
 import com.example.musicapp.Musics.AlbumAdapter;
-import com.example.musicapp.Musics.MusicAdapter;
 import com.example.musicapp.Musics.MusicFile;
 import com.example.musicapp.R;
-
-import static com.example.musicapp.Activities.MainActivity.albums;
-import static com.example.musicapp.Activities.MainActivity.musicFiles;
 
 public class AlbumFragment extends Fragment
 {
@@ -34,9 +30,9 @@ public class AlbumFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_album, container, false);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        if (albums.size() > 0)
+        if (MainActivity.albums.size() > 0)
         {
-            albumAdapter = new AlbumAdapter(getContext(), albums);
+            albumAdapter = new AlbumAdapter(getContext(), MainActivity.albums);
             recyclerView.setAdapter(albumAdapter);
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
@@ -65,9 +61,9 @@ public class AlbumFragment extends Fragment
 
     public void moveItem(int oldPos, int newPos)
     {
-        MusicFile musicFile = musicFiles.get(oldPos);
-        musicFiles.remove(oldPos);
-        musicFiles.add(newPos, musicFile);
+        MusicFile musicFile = MainActivity.musicFiles.get(oldPos);
+        MainActivity.musicFiles.remove(oldPos);
+        MainActivity.musicFiles.add(newPos, musicFile);
         albumAdapter.notifyItemMoved(oldPos, newPos);
     }
 }

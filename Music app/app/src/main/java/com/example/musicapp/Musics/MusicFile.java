@@ -10,20 +10,6 @@ public class MusicFile
     private final String id;
     public int color = -1;
 
-    @Override
-    public String toString()
-    {
-        return "MusicFile{" +
-                "album='" + album + '\'' +
-                ", title='" + title + '\'' +
-                ", duration='" + duration + '\'' +
-                ", path='" + path + '\'' +
-                ", artist='" + artist + '\'' +
-                ", id='" + id + '\'' +
-                ", color=" + color +
-                '}';
-    }
-
     public void setColor(int color)
     {
         this.color = color;

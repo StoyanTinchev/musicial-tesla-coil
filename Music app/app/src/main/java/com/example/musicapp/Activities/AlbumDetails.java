@@ -17,8 +17,6 @@ import com.example.musicapp.R;
 
 import java.util.ArrayList;
 
-import static com.example.musicapp.Activities.MainActivity.musicFiles;
-
 public class AlbumDetails extends AppCompatActivity
 {
     RecyclerView recyclerView;
@@ -36,10 +34,10 @@ public class AlbumDetails extends AppCompatActivity
         albumPhoto = findViewById(R.id.albumPhoto);
         albumName = getIntent().getStringExtra("albumName");
         int j = 0;
-        for (int i = 0; i < musicFiles.size(); ++i)
-            if (albumName.equals(musicFiles.get(i).getAlbum()))
+        for (int i = 0; i < MainActivity.musicFiles.size(); ++i)
+            if (albumName.equals(MainActivity.musicFiles.get(i).getAlbum()))
             {
-                albumSongs.add(j, musicFiles.get(i));
+                albumSongs.add(j, MainActivity.musicFiles.get(i));
                 ++j;
             }
         byte[] image = MusicAdapter.getAlbumArt(albumSongs.get(0).getPath());
@@ -91,9 +89,9 @@ public class AlbumDetails extends AppCompatActivity
 
     public void moveItem(int oldPos, int newPos)
     {
-        MusicFile musicFile = musicFiles.get(oldPos);
-        musicFiles.remove(oldPos);
-        musicFiles.add(newPos, musicFile);
+        MusicFile musicFile = MainActivity.musicFiles.get(oldPos);
+        MainActivity.musicFiles.remove(oldPos);
+        MainActivity.musicFiles.add(newPos, musicFile);
         albumDetailsAdapter.notifyItemMoved(oldPos, newPos);
     }
 }

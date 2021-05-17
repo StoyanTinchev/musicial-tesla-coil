@@ -11,11 +11,10 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.musicapp.Activities.MainActivity;
 import com.example.musicapp.Musics.MusicAdapter;
 import com.example.musicapp.Musics.MusicFile;
 import com.example.musicapp.R;
-
-import static com.example.musicapp.Activities.MainActivity.musicFiles;
 
 
 public class SongsFragment extends Fragment
@@ -32,9 +31,9 @@ public class SongsFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_songs, container, false);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        if (musicFiles.size() > 0)
+        if (MainActivity.musicFiles.size() > 0)
         {
-            musicAdapter = new MusicAdapter(getContext(), musicFiles);
+            musicAdapter = new MusicAdapter(getContext(), MainActivity.musicFiles);
             recyclerView.setAdapter(musicAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
@@ -63,9 +62,9 @@ public class SongsFragment extends Fragment
 
     public void moveItem(int oldPos, int newPos)
     {
-        MusicFile musicFile = musicFiles.get(oldPos);
-        musicFiles.remove(oldPos);
-        musicFiles.add(newPos, musicFile);
+        MusicFile musicFile = MainActivity.musicFiles.get(oldPos);
+        MainActivity.musicFiles.remove(oldPos);
+        MainActivity.musicFiles.add(newPos, musicFile);
         musicAdapter.notifyItemMoved(oldPos, newPos);
     }
 
