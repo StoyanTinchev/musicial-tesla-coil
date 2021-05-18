@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SongsFragment">
+    tools:context=".Fragments.SongsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/recyclerView"
-            android:background="#a8a8a8"/>
+            android:background="@color/white"/>
 
 </RelativeLayout>

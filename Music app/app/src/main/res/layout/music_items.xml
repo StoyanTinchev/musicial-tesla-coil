@@ -3,24 +3,54 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#696969"
-        android:layout_marginTop="5dp"
+        android:background="@color/white"
         android:id="@+id/audio_item">
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_marginStart="62dp"
+            android:layout_height="1dp"
+            android:background="#5e5e5e"
+            android:layout_marginTop="60dp"/>
 
     <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:id="@+id/music_img"
-            android:src="@mipmap/ic_launcher_round"
-            android:padding="5dp"/>
+            android:src="@drawable/musicimage"
+            android:padding="5dp"
+            android:scaleType="centerCrop"/>
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="File Name"
+            android:layout_toStartOf="@+id/menuMore"
             android:layout_toEndOf="@+id/music_img"
-            android:layout_marginStart="10dp"
-            android:layout_centerVertical="true"
-            android:textColor="@color/colorAccent"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:textStyle="italic|bold"
+            android:textSize="17sp"
             android:id="@+id/music_file_name"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Album name"
+            android:layout_toEndOf="@+id/music_img"
+            android:layout_toStartOf="@+id/menuMore"
+            android:textStyle="italic"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="35dp"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:id="@+id/album_file_name"/>
+    <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/menuMore"
+            android:src="@drawable/ic_baseline_more"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="5dp" />
 </RelativeLayout>
