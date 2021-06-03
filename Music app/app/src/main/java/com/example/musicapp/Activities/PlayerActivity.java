@@ -46,7 +46,9 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         getIntentMethod();
         song_name.setText(listSongs.get(position).getTitle());
         artist_name.setText(listSongs.get(position).getArtist());
-        mediaPlayer.setOnCompletionListener(this);
+        if (mediaPlayer == null)
+            mediaPlayer.setOnCompletionListener(this);
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
         {
             @Override
@@ -141,99 +143,63 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         prevThread.start();
     }
 
+    private void prevBtnSupp()
+    {
+        mediaPlayer.stop();
+        mediaPlayer.release();
+        if (MainActivity.shuffleBoolean && !MainActivity.repeatBoolean)
+            position = getRandom(listSongs.size() - 1);
+        else if (!MainActivity.shuffleBoolean && !MainActivity.repeatBoolean)
+            position = ((position - 1) < 0 ? (listSongs.size() - 1) : (position - 1));
+        // else position will be the same ...
+
+
+        uri = Uri.parse(listSongs.get(position).getPath());
+        prev_song = listSongs.get(position);
+        curr_song = prev_song;
+        if (MainActivity.musicFiles.contains(curr_song))
+        {
+            for (MusicFile musicFile : MainActivity.musicFiles)
+                if (musicFile == curr_song)
+                    musicFile.setColor(0);
+                else
+                    musicFile.setColor(-1);
+            SongsFragment.musicAdapter.updateList(MainActivity.musicFiles);
+            if (AlbumDetailsAdapter.albumFiles != null && AlbumDetailsAdapter.albumFiles.contains(curr_song))
+                AlbumDetails.albumDetailsAdapter.updateList(AlbumDetailsAdapter.albumFiles);
+        }
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
+        metaData(uri);
+        song_name.setText(listSongs.get(position).getTitle());
+        artist_name.setText(listSongs.get(position).getArtist());
+        seekBar.setMax(mediaPlayer.getDuration() / 1000);
+        PlayerActivity.this.runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                if (mediaPlayer != null)
+                {
+                    int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                    seekBar.setProgress(mCurrentPosition);
+                }
+                new Handler(Looper.getMainLooper()).postDelayed(this, 10);
+            }
+        });
+        mediaPlayer.setOnCompletionListener(this);
+    }
+
     private void prevBtnClicked()
     {
         if (mediaPlayer.isPlaying())
         {
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            if (MainActivity.shuffleBoolean && !MainActivity.repeatBoolean)
-                position = getRandom(listSongs.size() - 1);
-            else if (!MainActivity.shuffleBoolean && !MainActivity.repeatBoolean)
-                position = ((position - 1) < 0 ? (listSongs.size() - 1) : (position - 1));
-            // else position will be the same ...
-
-
-            uri = Uri.parse(listSongs.get(position).getPath());
-            prev_song = listSongs.get(position);
-            curr_song = prev_song;
-            if (MainActivity.musicFiles.contains(curr_song))
-            {
-                for (MusicFile musicFile : MainActivity.musicFiles)
-                    if (musicFile == curr_song)
-                        musicFile.setColor(0);
-                    else
-                        musicFile.setColor(-1);
-                SongsFragment.musicAdapter.updateList(MainActivity.musicFiles);
-                if (AlbumDetailsAdapter.albumFiles != null && AlbumDetailsAdapter.albumFiles.contains(curr_song))
-                    AlbumDetails.albumDetailsAdapter.updateList(AlbumDetailsAdapter.albumFiles);
-            }
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
-            metaData(uri);
-            song_name.setText(listSongs.get(position).getTitle());
-            artist_name.setText(listSongs.get(position).getArtist());
-            seekBar.setMax(mediaPlayer.getDuration() / 1000);
-            PlayerActivity.this.runOnUiThread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    if (mediaPlayer != null)
-                    {
-                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
-                        seekBar.setProgress(mCurrentPosition);
-                    }
-                    new Handler(Looper.getMainLooper()).postDelayed(this, 10);
-                }
-            });
-            mediaPlayer.setOnCompletionListener(this);
+            prevBtnSupp();
             playPauseBtn.setBackgroundResource(R.drawable.ic_pause);
             mediaPlayer.start();
         }
         else
         {
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            if (MainActivity.shuffleBoolean && !MainActivity.repeatBoolean)
-                position = getRandom(listSongs.size() - 1);
-            else if (!MainActivity.shuffleBoolean && !MainActivity.repeatBoolean)
-                position = ((position - 1) < 0 ? (listSongs.size() - 1) : (position - 1));
-            // else position will be the same ...
-
-
-            uri = Uri.parse(listSongs.get(position).getPath());
-            prev_song = listSongs.get(position);
-            curr_song = prev_song;
-            if (MainActivity.musicFiles.contains(curr_song))
-            {
-                for (MusicFile musicFile : MainActivity.musicFiles)
-                    if (musicFile == curr_song)
-                        musicFile.setColor(0);
-                    else
-                        musicFile.setColor(-1);
-                SongsFragment.musicAdapter.updateList(MainActivity.musicFiles);
-                if (AlbumDetailsAdapter.albumFiles != null && AlbumDetailsAdapter.albumFiles.contains(curr_song))
-                    AlbumDetails.albumDetailsAdapter.updateList(AlbumDetailsAdapter.albumFiles);
-            }
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
-            metaData(uri);
-            song_name.setText(listSongs.get(position).getTitle());
-            artist_name.setText(listSongs.get(position).getArtist());
-            seekBar.setMax(mediaPlayer.getDuration() / 1000);
-            PlayerActivity.this.runOnUiThread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    if (mediaPlayer != null)
-                    {
-                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
-                        seekBar.setProgress(mCurrentPosition);
-                    }
-                    new Handler(Looper.getMainLooper()).postDelayed(this, 10);
-                }
-            });
-            mediaPlayer.setOnCompletionListener(this);
+            prevBtnSupp();
             playPauseBtn.setBackgroundResource(R.drawable.ic_play_arrow);
         }
     }
@@ -252,99 +218,63 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         nextThread.start();
     }
 
+    private void nextBtnSupp()
+    {
+        mediaPlayer.stop();
+        mediaPlayer.release();
+        if (MainActivity.shuffleBoolean && !MainActivity.repeatBoolean)
+            position = getRandom(listSongs.size() - 1);
+        else if (!MainActivity.shuffleBoolean && !MainActivity.repeatBoolean)
+            position = ((position + 1) > (listSongs.size() - 1) ? 0 : (position + 1));
+        // else position will be the same ...
+
+
+        uri = Uri.parse(listSongs.get(position).getPath());
+        prev_song = listSongs.get(position);
+        curr_song = prev_song;
+        if (MainActivity.musicFiles.contains(curr_song))
+        {
+            for (MusicFile musicFile : MainActivity.musicFiles)
+                if (musicFile == curr_song)
+                    musicFile.setColor(0);
+                else
+                    musicFile.setColor(-1);
+            SongsFragment.musicAdapter.updateList(MainActivity.musicFiles);
+            if (AlbumDetailsAdapter.albumFiles != null && AlbumDetailsAdapter.albumFiles.contains(curr_song))
+                AlbumDetails.albumDetailsAdapter.updateList(AlbumDetailsAdapter.albumFiles);
+        }
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
+        metaData(uri);
+        song_name.setText(listSongs.get(position).getTitle());
+        artist_name.setText(listSongs.get(position).getArtist());
+        seekBar.setMax(mediaPlayer.getDuration() / 1000);
+        PlayerActivity.this.runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                if (mediaPlayer != null)
+                {
+                    int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                    seekBar.setProgress(mCurrentPosition);
+                }
+                new Handler(Looper.getMainLooper()).postDelayed(this, 10);
+            }
+        });
+        mediaPlayer.setOnCompletionListener(this);
+    }
+
     private void nextBtnClicked()
     {
         if (mediaPlayer.isPlaying())
         {
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            if (MainActivity.shuffleBoolean && !MainActivity.repeatBoolean)
-                position = getRandom(listSongs.size() - 1);
-            else if (!MainActivity.shuffleBoolean && !MainActivity.repeatBoolean)
-                position = ((position + 1) > (listSongs.size() - 1) ? 0 : (position + 1));
-            // else position will be the same ...
-
-
-            uri = Uri.parse(listSongs.get(position).getPath());
-            prev_song = listSongs.get(position);
-            curr_song = prev_song;
-            if (MainActivity.musicFiles.contains(curr_song))
-            {
-                for (MusicFile musicFile : MainActivity.musicFiles)
-                    if (musicFile == curr_song)
-                        musicFile.setColor(0);
-                    else
-                        musicFile.setColor(-1);
-                SongsFragment.musicAdapter.updateList(MainActivity.musicFiles);
-                if (AlbumDetailsAdapter.albumFiles != null && AlbumDetailsAdapter.albumFiles.contains(curr_song))
-                    AlbumDetails.albumDetailsAdapter.updateList(AlbumDetailsAdapter.albumFiles);
-            }
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
-            metaData(uri);
-            song_name.setText(listSongs.get(position).getTitle());
-            artist_name.setText(listSongs.get(position).getArtist());
-            seekBar.setMax(mediaPlayer.getDuration() / 1000);
-            PlayerActivity.this.runOnUiThread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    if (mediaPlayer != null)
-                    {
-                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
-                        seekBar.setProgress(mCurrentPosition);
-                    }
-                    new Handler(Looper.getMainLooper()).postDelayed(this, 10);
-                }
-            });
-            mediaPlayer.setOnCompletionListener(this);
+            nextBtnSupp();
             playPauseBtn.setBackgroundResource(R.drawable.ic_pause);
             mediaPlayer.start();
         }
         else
         {
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            if (MainActivity.shuffleBoolean && !MainActivity.repeatBoolean)
-                position = getRandom(listSongs.size() - 1);
-            else if (!MainActivity.shuffleBoolean && !MainActivity.repeatBoolean)
-                position = ((position + 1) > (listSongs.size() - 1) ? 0 : (position + 1));
-            // else position will be the same ...
-
-
-            uri = Uri.parse(listSongs.get(position).getPath());
-            prev_song = listSongs.get(position);
-            curr_song = prev_song;
-            if (MainActivity.musicFiles.contains(curr_song))
-            {
-                for (MusicFile musicFile : MainActivity.musicFiles)
-                    if (musicFile == curr_song)
-                        musicFile.setColor(0);
-                    else
-                        musicFile.setColor(-1);
-                SongsFragment.musicAdapter.updateList(MainActivity.musicFiles);
-                if (AlbumDetailsAdapter.albumFiles != null && AlbumDetailsAdapter.albumFiles.contains(curr_song))
-                    AlbumDetails.albumDetailsAdapter.updateList(AlbumDetailsAdapter.albumFiles);
-            }
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
-            metaData(uri);
-            song_name.setText(listSongs.get(position).getTitle());
-            artist_name.setText(listSongs.get(position).getArtist());
-            seekBar.setMax(mediaPlayer.getDuration() / 1000);
-            PlayerActivity.this.runOnUiThread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    if (mediaPlayer != null)
-                    {
-                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
-                        seekBar.setProgress(mCurrentPosition);
-                    }
-                    new Handler(Looper.getMainLooper()).postDelayed(this, 10);
-                }
-            });
-            mediaPlayer.setOnCompletionListener(this);
+            nextBtnSupp();
             playPauseBtn.setBackgroundResource(R.drawable.ic_play_arrow);
         }
     }
