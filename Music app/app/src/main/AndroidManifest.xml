@@ -11,6 +11,7 @@
             android:requestLegacyExternalStorage="true"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
+            android:name=".NotificationPlaying.ApplicationClass"
             android:theme="@style/Theme.MusicApp">
         <activity android:name=".Activities.AlbumDetails" />
         <activity android:name=".Activities.PlayerActivity" />
@@ -21,6 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".NotificationPlaying.MusicService" android:enabled="true"/>
     </application>
 
 </manifest>
