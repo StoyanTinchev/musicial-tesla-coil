@@ -8,11 +8,9 @@ import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,21 +31,13 @@ import java.util.ArrayList;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder>
 {
-    private final Context mContext;
     public static ArrayList<MusicFile> mFiles;
+    private final Context mContext;
 
     public MusicAdapter(Context mContext, ArrayList<MusicFile> mFiles)
     {
         this.mContext = mContext;
         MusicAdapter.mFiles = mFiles;
-    }
-
-    @NonNull
-    @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
-    {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.music_items, parent, false);
-        return new MyViewHolder(view);
     }
 
     public static boolean isPathValid(String path)
@@ -62,6 +52,23 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         }
 
         return true;
+    }
+
+    public static byte[] getAlbumArt(String uri)
+    {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setDataSource(uri);
+        byte[] art = retriever.getEmbeddedPicture();
+        retriever.release();
+        return art;
+    }
+
+    @NonNull
+    @Override
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.music_items, parent, false);
+        return new MyViewHolder(view);
     }
 
     @Override
@@ -142,6 +149,13 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         return mFiles.size();
     }
 
+    public void updateList(ArrayList<MusicFile> musicFileArrayList)
+    {
+        mFiles = new ArrayList<>();
+        mFiles.addAll(musicFileArrayList);
+        notifyDataSetChanged();
+    }
+
     public static class MyViewHolder extends RecyclerView.ViewHolder
     {
         TextView file_name, album_name;
@@ -155,21 +169,5 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
             album_art = itemView.findViewById(R.id.music_img);
             menuMore = itemView.findViewById(R.id.menuMore);
         }
-    }
-
-    public static byte[] getAlbumArt(String uri)
-    {
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        retriever.setDataSource(uri);
-        byte[] art = retriever.getEmbeddedPicture();
-        retriever.release();
-        return art;
-    }
-
-    public void updateList(ArrayList<MusicFile> musicFileArrayList)
-    {
-        mFiles = new ArrayList<>();
-        mFiles.addAll(musicFileArrayList);
-        notifyDataSetChanged();
     }
 }

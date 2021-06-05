@@ -26,16 +26,31 @@ import java.util.Random;
 
 public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener
 {
+    public static MusicFile prev_song, curr_song;
+    public static MediaPlayer mediaPlayer;
+    static Uri uri;
     TextView song_name, artist_name, duration_played, duration_total;
     ImageView cover_art, nextBtn, prevBtn, backBtn, shuffleBtn, repeatBtn;
     FloatingActionButton playPauseBtn;
     SeekBar seekBar;
     int position = -1;
     ArrayList<MusicFile> listSongs = new ArrayList<>();
-    public static MusicFile prev_song, curr_song;
-    static Uri uri;
-    public static MediaPlayer mediaPlayer;
     private Thread playThread, prevThread, nextThread;
+
+    public static String formattedTime(int mCurrentPosition)
+    {
+        String totalOut;
+        String totalNew;
+        String seconds = String.valueOf(mCurrentPosition % 60);
+        String minutes = String.valueOf(mCurrentPosition / 60);
+        totalOut = minutes + ":" + seconds;
+        totalNew = minutes + ":" + "0" + seconds;
+
+        if (seconds.length() == 1)
+            return totalNew;
+        else
+            return totalOut;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -339,21 +354,6 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
                 }
             });
         }
-    }
-
-    public static String formattedTime(int mCurrentPosition)
-    {
-        String totalOut;
-        String totalNew;
-        String seconds = String.valueOf(mCurrentPosition % 60);
-        String minutes = String.valueOf(mCurrentPosition / 60);
-        totalOut = minutes + ":" + seconds;
-        totalNew = minutes + ":" + "0" + seconds;
-
-        if (seconds.length() == 1)
-            return totalNew;
-        else
-            return totalOut;
     }
 
     private void getIntentMethod()
