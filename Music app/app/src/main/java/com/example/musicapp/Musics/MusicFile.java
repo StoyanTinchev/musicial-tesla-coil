@@ -1,7 +1,10 @@
 package com.example.musicapp.Musics;
 
-public class MusicFile
-{
+import android.net.Uri;
+
+import java.io.File;
+
+public class MusicFile {
     private final String album;
     private final String title;
     private final String duration;
@@ -11,8 +14,7 @@ public class MusicFile
     public int color = -1;
 
     public MusicFile(String album, String title, String duration, String path,
-                     String artist, String id)
-    {
+                     String artist, String id) {
         this.album = album;
         this.title = title;
         this.duration = duration;
@@ -21,38 +23,36 @@ public class MusicFile
         this.id = id;
     }
 
-    public void setColor(int color)
-    {
+    public Uri getUri() {
+        File file = new File(path);
+        return Uri.fromFile(file);
+    }
+
+    public void setColor(int color) {
         this.color = color;
     }
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return title;
     }
 
-    public String getPath()
-    {
+    public String getPath() {
         return path;
     }
 
-    public String getAlbum()
-    {
+    public String getAlbum() {
         return album;
     }
 
-    public String getArtist()
-    {
+    public String getArtist() {
         return artist;
     }
 
-    public String getDuration()
-    {
+    public String getDuration() {
         return duration;
     }
 }

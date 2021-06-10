@@ -423,6 +423,7 @@ public class PlayerActivity extends AppCompatActivity implements
     public void onServiceConnected(ComponentName name, IBinder service) {
         MusicService.MyBinder myBinder = (MusicService.MyBinder) service;
         musicService = myBinder.getService();
+        musicService.setCallBack(this);
         Toast.makeText(this, "Connected" + musicService, Toast.LENGTH_SHORT).show();
         seekBar.setMax(musicService.getDuration() / 1000);
         metaData(uri);
@@ -447,19 +448,18 @@ public class PlayerActivity extends AppCompatActivity implements
                 .getBroadcast(this, 0, prevIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Intent pauseIntent = new Intent(this, PlayerActivity.class)
+        Intent pauseIntent = new Intent(this, NotificationReceiver.class)
                 .setAction(ApplicationClass.ACTION_PLAY);
         PendingIntent pausePending = PendingIntent
                 .getBroadcast(this, 0, pauseIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent nextIntent = new Intent(this, NotificationReceiver.class)
-                .setAction(ApplicationClass.ACTION_PREVIOUS);
+                .setAction(ApplicationClass.ACTION_NEXT);
         PendingIntent nextPending = PendingIntent
                 .getBroadcast(this, 0, nextIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
 
-//        TODO: listSongs or musicFiles
         byte[] picture = MusicAdapter.getAlbumArt(listSongs.get(position).getPath());
         Bitmap thumb;
         if (picture != null) {
