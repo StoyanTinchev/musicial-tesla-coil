@@ -1,19 +1,28 @@
 package com.example.musicapp.NotificationPlaying;
 
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
+import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 
 import com.example.musicapp.Activities.PlayerActivity;
+import com.example.musicapp.Musics.MusicAdapter;
 import com.example.musicapp.Musics.MusicFile;
+import com.example.musicapp.R;
 
 import java.util.ArrayList;
 
@@ -24,11 +33,12 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     Uri uri;
     int position = -1;
     ActionPlaying actionPlaying;
+    MediaSessionCompat mediaSessionCompat;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        musicFiles = PlayerActivity.listSongs;
+        mediaSessionCompat = new MediaSessionCompat(getBaseContext(), "My Audio");
     }
 
     @Nullable
@@ -132,7 +142,8 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         return mediaPlayer.getCurrentPosition();
     }
 
-    public void createMediaPlayer(int position) {
+    public void createMediaPlayer(int positionInner) {
+        position = positionInner;
         uri = musicFiles.get(position).getUri();
         mediaPlayer = MediaPlayer.create(getBaseContext(), uri);
     }
@@ -143,14 +154,65 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        if (actionPlaying != null)
+        if (actionPlaying != null) {
             actionPlaying.nextBtnClicked();
-        createMediaPlayer(position);
-        start();
-        OnCompleted();
+            if (mediaPlayer != null){
+                createMediaPlayer(position);
+                mediaPlayer.start();
+                OnCompleted();
+            }
+        }
     }
 
     public void setCallBack(ActionPlaying actionPlaying) {
         this.actionPlaying = actionPlaying;
+    }
+
+    public void showNotification(int playPauseBtn) {
+        Intent intent = new Intent(this, PlayerActivity.class);
+        PendingIntent contentIntent = PendingIntent
+                .getActivity(this, 0, intent, 0);
+
+        Intent prevIntent = new Intent(this, NotificationReceiver.class)
+                .setAction(ApplicationClass.ACTION_PREVIOUS);
+        PendingIntent prevPending = PendingIntent
+                .getBroadcast(this, 0, prevIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent pauseIntent = new Intent(this, NotificationReceiver.class)
+                .setAction(ApplicationClass.ACTION_PLAY);
+        PendingIntent pausePending = PendingIntent
+                .getBroadcast(this, 0, pauseIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent nextIntent = new Intent(this, NotificationReceiver.class)
+                .setAction(ApplicationClass.ACTION_NEXT);
+        PendingIntent nextPending = PendingIntent
+                .getBroadcast(this, 0, nextIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+
+        byte[] picture = MusicAdapter.getAlbumArt(musicFiles.get(position).getPath());
+        Bitmap thumb;
+        if (picture != null) {
+            thumb = BitmapFactory.decodeByteArray(picture, 0, picture.length);
+        } else {
+            thumb = BitmapFactory.decodeResource(getResources(), R.drawable.musicimage);
+        }
+        Notification notification = new NotificationCompat.Builder(this,
+                ApplicationClass.CHANNEL_ID_2)
+                .setSmallIcon(playPauseBtn)
+                .setLargeIcon(thumb)
+                .setContentTitle(musicFiles.get(position).getTitle())
+                .setContentText(musicFiles.get(position).getArtist())
+                .addAction(R.drawable.ic_skip_previous, "Previous", prevPending)
+                .addAction(playPauseBtn, "Pause", pausePending)
+                .addAction(R.drawable.ic_skip_next, "Next", nextPending)
+                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
+                        .setMediaSession(mediaSessionCompat.getSessionToken()))
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setOnlyAlertOnce(true)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .build();
+        startForeground(2, notification);
     }
 }
