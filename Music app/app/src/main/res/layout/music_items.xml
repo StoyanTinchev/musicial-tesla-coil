@@ -49,7 +49,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/menuMore"
-            android:src="@drawable/ic_baseline_more"
+            android:src="@drawable/ic_baseline_delete"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:padding="5dp" />

@@ -19,8 +19,8 @@ import com.example.musicapp.R;
 
 public class SongsFragment extends Fragment
 {
-    RecyclerView recyclerView;
     public static MusicAdapter musicAdapter;
+    RecyclerView recyclerView;
 
     public SongsFragment() { }
 

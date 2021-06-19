@@ -32,11 +32,55 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener
 {
-    static ArrayList<String> duplicate = new ArrayList<>();
     public static final int REQUEST_CODE = 1;
     public static ArrayList<MusicFile> musicFiles;
     public static boolean shuffleBoolean = false, repeatBoolean = false;
     public static ArrayList<MusicFile> albums = new ArrayList<>();
+    static ArrayList<String> duplicate = new ArrayList<>();
+
+    public static ArrayList<MusicFile> getAllAudio(Context context)
+    {
+        ArrayList<MusicFile> tempAudioList = new ArrayList<>();
+        Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+
+        String[] projection =
+                {
+                        MediaStore.Audio.Media.ALBUM,
+                        MediaStore.Audio.Media.TITLE,
+                        MediaStore.Audio.Media.DURATION,
+                        MediaStore.Audio.Media.DATA,
+                        MediaStore.Audio.Media.ARTIST,
+                        MediaStore.Audio.Media._ID
+                };
+
+        Cursor cursor = context.getContentResolver().query(uri, projection,
+                MediaStore.Audio.Media.IS_MUSIC + "=1", null, null);
+        if (cursor != null)
+        {
+            while (cursor.moveToNext())
+            {
+                String album = cursor.getString(0);
+                String title = cursor.getString(1);
+                String duration = cursor.getString(2);
+                String path = cursor.getString(3);
+                String artist = cursor.getString(4);
+                String id = cursor.getString(5);
+
+                MusicFile musicFile = new MusicFile(album, title, duration, path, artist, id);
+
+                Log.e("Path: " + path, " Album: " + album);
+
+                tempAudioList.add(musicFile);
+                if (!duplicate.contains(album))
+                {
+                    albums.add(musicFile);
+                    duplicate.add(album);
+                }
+            }
+            cursor.close();
+        }
+        return tempAudioList;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -90,6 +134,35 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.search, menu);
+        MenuItem menuItem = menu.findItem(R.id.search_option);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setOnQueryTextListener(this);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText)
+    {
+        String userInput = newText.toLowerCase();
+        ArrayList<MusicFile> myFiles = new ArrayList<>();
+        for (MusicFile songs : musicFiles)
+            if (songs.getTitle().toLowerCase().contains(userInput))
+                myFiles.add(songs);
+
+        SongsFragment.musicAdapter.updateList(myFiles);
+        return true;
+    }
+
     public static class ViewPagerAdapter extends FragmentPagerAdapter
     {
         private final ArrayList<Fragment> fragments;
@@ -127,78 +200,5 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         {
             return this.titles.get(position);
         }
-    }
-
-    public static ArrayList<MusicFile> getAllAudio(Context context)
-    {
-        ArrayList<MusicFile> tempAudioList = new ArrayList<>();
-        Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-
-        String[] projection =
-                {
-                        MediaStore.Audio.Media.ALBUM,
-                        MediaStore.Audio.Media.TITLE,
-                        MediaStore.Audio.Media.DURATION,
-                        MediaStore.Audio.Media.DATA,
-                        MediaStore.Audio.Media.ARTIST,
-                        MediaStore.Audio.Media._ID
-                };
-
-        Cursor cursor = context.getContentResolver().query(uri, projection,
-                MediaStore.Audio.Media.IS_MUSIC + "=1", null, null);
-        if (cursor != null)
-        {
-            while (cursor.moveToNext())
-            {
-                String album = cursor.getString(0);
-                String title = cursor.getString(1);
-                String duration = cursor.getString(2);
-                String path = cursor.getString(3);
-                String artist = cursor.getString(4);
-                String id = cursor.getString(5);
-
-                MusicFile musicFile = new MusicFile(album, title, duration, path, artist, id);
-
-                Log.e("Path: " + path, " Album: " + album);
-
-                tempAudioList.add(musicFile);
-                if (!duplicate.contains(album))
-                {
-                    albums.add(musicFile);
-                    duplicate.add(album);
-                }
-            }
-            cursor.close();
-        }
-        return tempAudioList;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        getMenuInflater().inflate(R.menu.search, menu);
-        MenuItem menuItem = menu.findItem(R.id.search_option);
-        SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setOnQueryTextListener(this);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText)
-    {
-        String userInput = newText.toLowerCase();
-        ArrayList<MusicFile> myFiles = new ArrayList<>();
-        for (MusicFile songs : musicFiles)
-            if (songs.getTitle().toLowerCase().contains(userInput))
-                myFiles.add(songs);
-
-        SongsFragment.musicAdapter.updateList(myFiles);
-        return true;
     }
 }

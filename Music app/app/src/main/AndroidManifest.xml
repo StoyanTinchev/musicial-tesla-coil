@@ -3,6 +3,7 @@
         package="com.example.musicapp">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
             android:allowBackup="true"
@@ -11,8 +12,9 @@
             android:requestLegacyExternalStorage="true"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
+            android:name=".NotificationPlaying.ApplicationClass"
             android:theme="@style/Theme.MusicApp">
-        <activity android:name=".Activities.AlbumDetails"></activity>
+        <activity android:name=".Activities.AlbumDetails" />
         <activity android:name=".Activities.PlayerActivity" />
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
@@ -21,6 +23,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".NotificationPlaying.MusicService" android:enabled="true"/>
+
+        <receiver android:name=".NotificationPlaying.NotificationReceiver" android:enabled="true">
+            <intent-filter>
+                <action android:name="action_previous"/>
+                <action android:name="action_next"/>
+                <action android:name="action_play"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

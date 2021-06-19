@@ -1,13 +1,13 @@
 package com.example.musicapp.Activities;
 
+import android.os.Bundle;
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.musicapp.Musics.AlbumDetailsAdapter;
@@ -19,11 +19,11 @@ import java.util.ArrayList;
 
 public class AlbumDetails extends AppCompatActivity
 {
+    public static AlbumDetailsAdapter albumDetailsAdapter;
+    public ArrayList<MusicFile> albumSongs = new ArrayList<>();
     RecyclerView recyclerView;
     ImageView albumPhoto;
     String albumName;
-    public ArrayList<MusicFile> albumSongs = new ArrayList<>();
-    public static AlbumDetailsAdapter albumDetailsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -92,6 +92,7 @@ public class AlbumDetails extends AppCompatActivity
         MusicFile musicFile = MainActivity.musicFiles.get(oldPos);
         MainActivity.musicFiles.remove(oldPos);
         MainActivity.musicFiles.add(newPos, musicFile);
-        albumDetailsAdapter.notifyItemMoved(oldPos, newPos);
+        if (albumDetailsAdapter != null)
+            albumDetailsAdapter.notifyItemMoved(oldPos, newPos);
     }
 }

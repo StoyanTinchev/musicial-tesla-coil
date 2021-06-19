@@ -28,9 +28,9 @@ import java.util.ArrayList;
 
 public class AlbumDetailsAdapter extends RecyclerView.Adapter<AlbumDetailsAdapter.MyHolder>
 {
-    private Context mContext;
     public static ArrayList<MusicFile> albumFiles;
     View view;
+    private final Context mContext;
 
     public AlbumDetailsAdapter(Context mContext, ArrayList<MusicFile> albumFiles)
     {
@@ -123,21 +123,6 @@ public class AlbumDetailsAdapter extends RecyclerView.Adapter<AlbumDetailsAdapte
         return albumFiles.size();
     }
 
-    public static class MyHolder extends RecyclerView.ViewHolder
-    {
-        ImageView album_image, menu_more;
-        TextView song_title, album_name;
-
-        public MyHolder(@NonNull View itemView)
-        {
-            super(itemView);
-            album_image = itemView.findViewById(R.id.music_img);
-            song_title = itemView.findViewById(R.id.music_file_name);
-            album_name = itemView.findViewById(R.id.album_file_name);
-            menu_more = itemView.findViewById(R.id.menuMore);
-        }
-    }
-
     public void deleteFile(int position, View view)
     {
         Uri contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
@@ -152,7 +137,6 @@ public class AlbumDetailsAdapter extends RecyclerView.Adapter<AlbumDetailsAdapte
             notifyItemRangeChanged(position, albumFiles.size());
             Snackbar.make(view, "File deleted", Snackbar.LENGTH_LONG).show();
         }
-        // else is when the file is in the sd card
         else
             Snackbar.make(view, "Can't be deleted!", Snackbar.LENGTH_LONG).show();
     }
@@ -162,5 +146,20 @@ public class AlbumDetailsAdapter extends RecyclerView.Adapter<AlbumDetailsAdapte
         albumFiles = new ArrayList<>();
         albumFiles.addAll(musicFileArrayList);
         notifyDataSetChanged();
+    }
+
+    public static class MyHolder extends RecyclerView.ViewHolder
+    {
+        ImageView album_image, menu_more;
+        TextView song_title, album_name;
+
+        public MyHolder(@NonNull View itemView)
+        {
+            super(itemView);
+            album_image = itemView.findViewById(R.id.music_img);
+            song_title = itemView.findViewById(R.id.music_file_name);
+            album_name = itemView.findViewById(R.id.album_file_name);
+            menu_more = itemView.findViewById(R.id.menuMore);
+        }
     }
 }

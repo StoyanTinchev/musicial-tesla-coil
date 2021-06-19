@@ -20,9 +20,9 @@ import java.util.ArrayList;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyHolder>
 {
-    private Context mContext;
-    private ArrayList<MusicFile> albumFiles;
     View view;
+    private final Context mContext;
+    private final ArrayList<MusicFile> albumFiles;
 
     public AlbumAdapter(Context mContext, ArrayList<MusicFile> albumFiles)
     {
