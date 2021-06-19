@@ -3,6 +3,7 @@ package com.example.musicapp.Musics;
 import android.net.Uri;
 
 import java.io.File;
+import java.util.Objects;
 
 public class MusicFile {
     private final String album;
@@ -54,5 +55,26 @@ public class MusicFile {
 
     public String getDuration() {
         return duration;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MusicFile musicFile = (MusicFile) o;
+        return color == musicFile.color &&
+                album.equals(musicFile.album) &&
+                title.equals(musicFile.title) &&
+                duration.equals(musicFile.duration) &&
+                path.equals(musicFile.path) &&
+                artist.equals(musicFile.artist) &&
+                id.equals(musicFile.id);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(album, title, duration, path, artist, id, color);
     }
 }
