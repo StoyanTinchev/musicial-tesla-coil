@@ -92,6 +92,7 @@ public class AlbumDetails extends AppCompatActivity
         MusicFile musicFile = MainActivity.musicFiles.get(oldPos);
         MainActivity.musicFiles.remove(oldPos);
         MainActivity.musicFiles.add(newPos, musicFile);
-        albumDetailsAdapter.notifyItemMoved(oldPos, newPos);
+        if (albumDetailsAdapter != null)
+            albumDetailsAdapter.notifyItemMoved(oldPos, newPos);
     }
 }
