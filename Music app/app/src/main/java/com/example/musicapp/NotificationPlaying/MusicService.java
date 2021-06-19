@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 
 public class MusicService extends Service implements MediaPlayer.OnCompletionListener {
     IBinder mBinder = new MyBinder();
-    MediaPlayer mediaPlayer;
+    public static MediaPlayer mediaPlayer;
     ArrayList<MusicFile> musicFiles = new ArrayList<>();
     Uri uri;
     int position = -1;
@@ -69,24 +70,18 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         if (actionName != null) {
             switch (actionName) {
                 case "playPause":
-                    Toast.makeText(this,
-                            "Pause", Toast.LENGTH_LONG).show();
                     if (actionPlaying != null) {
                         Log.e("Inside", "ActionPlayPause");
                         actionPlaying.playPauseBtnClicked();
                     }
                     break;
                 case "next":
-                    Toast.makeText(this,
-                            "Next", Toast.LENGTH_LONG).show();
                     if (actionPlaying != null) {
                         Log.e("Inside", "ActionNext");
                         actionPlaying.nextBtnClicked();
                     }
                     break;
                 case "previous":
-                    Toast.makeText(this,
-                            "Previous", Toast.LENGTH_LONG).show();
                     if (actionPlaying != null) {
                         Log.e("Inside", "ActionPrevious");
                         actionPlaying.prevBtnClicked();
@@ -169,10 +164,6 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     }
 
     public void showNotification(int playPauseBtn) {
-        Intent intent = new Intent(this, PlayerActivity.class);
-        PendingIntent contentIntent = PendingIntent
-                .getActivity(this, 0, intent, 0);
-
         Intent prevIntent = new Intent(this, NotificationReceiver.class)
                 .setAction(ApplicationClass.ACTION_PREVIOUS);
         PendingIntent prevPending = PendingIntent

@@ -137,7 +137,6 @@ public class AlbumDetailsAdapter extends RecyclerView.Adapter<AlbumDetailsAdapte
             notifyItemRangeChanged(position, albumFiles.size());
             Snackbar.make(view, "File deleted", Snackbar.LENGTH_LONG).show();
         }
-        // else is when the file is in the sd card
         else
             Snackbar.make(view, "Can't be deleted!", Snackbar.LENGTH_LONG).show();
     }
