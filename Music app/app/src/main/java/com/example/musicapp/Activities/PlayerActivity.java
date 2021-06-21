@@ -38,13 +38,13 @@ import java.util.Random;
 public class PlayerActivity extends AppCompatActivity implements
         ServiceConnection, ActionPlaying {
     public static MusicFile prev_song, curr_song;
+    public static ArrayList<MusicFile> listSongs = new ArrayList<>();
     static Uri uri;
     TextView song_name, artist_name, duration_played, duration_total;
     ImageView cover_art, nextBtn, prevBtn, backBtn, shuffleBtn, repeatBtn;
     FloatingActionButton playPauseBtn;
     SeekBar seekBar;
     int position = -1;
-    public static ArrayList<MusicFile> listSongs = new ArrayList<>();
     MusicService musicService;
 
     public static String formattedTime(int mCurrentPosition) {

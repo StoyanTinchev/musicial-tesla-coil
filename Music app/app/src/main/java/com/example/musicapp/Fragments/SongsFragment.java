@@ -17,22 +17,20 @@ import com.example.musicapp.Musics.MusicFile;
 import com.example.musicapp.R;
 
 
-public class SongsFragment extends Fragment
-{
+public class SongsFragment extends Fragment {
     public static MusicAdapter musicAdapter;
     RecyclerView recyclerView;
 
-    public SongsFragment() { }
+    public SongsFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_songs, container, false);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        if (MainActivity.musicFiles.size() > 0)
-        {
+        if (MainActivity.musicFiles.size() > 0) {
             musicAdapter = new MusicAdapter(getContext(), MainActivity.musicFiles);
             recyclerView.setAdapter(musicAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
@@ -42,26 +40,23 @@ public class SongsFragment extends Fragment
         return view;
     }
 
-    private ItemTouchHelper.Callback createHelperCallback()
-    {
+    private ItemTouchHelper.Callback createHelperCallback() {
         return new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP |
-                ItemTouchHelper.DOWN, 0)
-        {
+                ItemTouchHelper.DOWN, 0) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView,
-                                  @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target)
-            {
+                                  @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 moveItem(viewHolder.getAdapterPosition(), target.getAdapterPosition());
                 return true;
             }
 
             @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) { }
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            }
         };
     }
 
-    public void moveItem(int oldPos, int newPos)
-    {
+    public void moveItem(int oldPos, int newPos) {
         MusicFile musicFile = MainActivity.musicFiles.get(oldPos);
         MainActivity.musicFiles.remove(oldPos);
         MainActivity.musicFiles.add(newPos, musicFile);

@@ -2,10 +2,8 @@ package com.example.musicapp.NotificationPlaying;
 
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,7 +13,6 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -28,13 +25,14 @@ import com.example.musicapp.R;
 import java.util.ArrayList;
 
 public class MusicService extends Service implements MediaPlayer.OnCompletionListener {
-    IBinder mBinder = new MyBinder();
     public static MediaPlayer mediaPlayer;
+    IBinder mBinder = new MyBinder();
     ArrayList<MusicFile> musicFiles = new ArrayList<>();
     Uri uri;
     int position = -1;
     ActionPlaying actionPlaying;
     MediaSessionCompat mediaSessionCompat;
+    private Notification notification;
 
     @Override
     public void onCreate() {
@@ -51,13 +49,6 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
 
     public void pause() {
         mediaPlayer.pause();
-    }
-
-
-    public class MyBinder extends Binder {
-        public MusicService getService() {
-            return MusicService.this;
-        }
     }
 
     @Override
@@ -87,7 +78,12 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
                         actionPlaying.prevBtnClicked();
                     }
                     break;
-
+                case "close_notification":
+                    if (actionPlaying != null && notification != null) {
+                        Log.e("Inside", "ActionClose");
+                        stopForeground(true);
+                    }
+                    break;
             }
         }
         return START_STICKY;
@@ -151,7 +147,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     public void onCompletion(MediaPlayer mp) {
         if (actionPlaying != null) {
             actionPlaying.nextBtnClicked();
-            if (mediaPlayer != null){
+            if (mediaPlayer != null) {
                 createMediaPlayer(position);
                 mediaPlayer.start();
                 OnCompleted();
@@ -182,6 +178,12 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
                 .getBroadcast(this, 0, nextIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
 
+        Intent closeIntent = new Intent(this, NotificationReceiver.class)
+                .setAction(ApplicationClass.CLOSE_NOTIFICATION);
+        PendingIntent closePending = PendingIntent
+                .getBroadcast(this, 0, closeIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+
         byte[] picture = MusicAdapter.getAlbumArt(musicFiles.get(position).getPath());
         Bitmap thumb;
         if (picture != null) {
@@ -189,7 +191,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         } else {
             thumb = BitmapFactory.decodeResource(getResources(), R.drawable.musicimage);
         }
-        Notification notification = new NotificationCompat.Builder(this,
+        notification = new NotificationCompat.Builder(this,
                 ApplicationClass.CHANNEL_ID_2)
                 .setSmallIcon(playPauseBtn)
                 .setLargeIcon(thumb)
@@ -198,12 +200,20 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
                 .addAction(R.drawable.ic_skip_previous, "Previous", prevPending)
                 .addAction(playPauseBtn, "Pause", pausePending)
                 .addAction(R.drawable.ic_skip_next, "Next", nextPending)
+                .addAction(R.drawable.ic_baseline_close_24, "Close", closePending)
                 .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
                         .setMediaSession(mediaSessionCompat.getSessionToken()))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setOnlyAlertOnce(true)
+                .setAutoCancel(true)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .build();
         startForeground(2, notification);
+    }
+
+    public class MyBinder extends Binder {
+        public MusicService getService() {
+            return MusicService.this;
+        }
     }
 }

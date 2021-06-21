@@ -30,16 +30,14 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener
-{
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
     public static final int REQUEST_CODE = 1;
     public static ArrayList<MusicFile> musicFiles;
     public static boolean shuffleBoolean = false, repeatBoolean = false;
     public static ArrayList<MusicFile> albums = new ArrayList<>();
     static ArrayList<String> duplicate = new ArrayList<>();
 
-    public static ArrayList<MusicFile> getAllAudio(Context context)
-    {
+    public static ArrayList<MusicFile> getAllAudio(Context context) {
         ArrayList<MusicFile> tempAudioList = new ArrayList<>();
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
 
@@ -55,10 +53,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         Cursor cursor = context.getContentResolver().query(uri, projection,
                 MediaStore.Audio.Media.IS_MUSIC + "=1", null, null);
-        if (cursor != null)
-        {
-            while (cursor.moveToNext())
-            {
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
                 String album = cursor.getString(0);
                 String title = cursor.getString(1);
                 String duration = cursor.getString(2);
@@ -71,8 +67,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 Log.e("Path: " + path, " Album: " + album);
 
                 tempAudioList.add(musicFile);
-                if (!duplicate.contains(album))
-                {
+                if (!duplicate.contains(album)) {
                     albums.add(musicFile);
                     duplicate.add(album);
                 }
@@ -83,48 +78,38 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         permission();
     }
 
-    private void permission()
-    {
+    private void permission() {
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED)
-        {
+                != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}
                     , REQUEST_CODE);
-        }
-        else
-        {
+        } else {
             musicFiles = getAllAudio(this);
             initViewPager();
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == REQUEST_CODE)
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 musicFiles = getAllAudio(this);
                 initViewPager();
-            }
-            else
-            {
+            } else {
                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}
                         , REQUEST_CODE);
             }
     }
 
-    private void initViewPager()
-    {
+    private void initViewPager() {
         ViewPager viewPager = findViewById(R.id.viewpager);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -135,8 +120,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search, menu);
         MenuItem menuItem = menu.findItem(R.id.search_option);
         SearchView searchView = (SearchView) menuItem.getActionView();
@@ -145,14 +129,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     @Override
-    public boolean onQueryTextSubmit(String query)
-    {
+    public boolean onQueryTextSubmit(String query) {
         return false;
     }
 
     @Override
-    public boolean onQueryTextChange(String newText)
-    {
+    public boolean onQueryTextChange(String newText) {
         String userInput = newText.toLowerCase();
         ArrayList<MusicFile> myFiles = new ArrayList<>();
         for (MusicFile songs : musicFiles)
@@ -163,41 +145,35 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         return true;
     }
 
-    public static class ViewPagerAdapter extends FragmentPagerAdapter
-    {
+    public static class ViewPagerAdapter extends FragmentPagerAdapter {
         private final ArrayList<Fragment> fragments;
         private final ArrayList<String> titles;
 
-        public ViewPagerAdapter(@NonNull FragmentManager fm)
-        {
+        public ViewPagerAdapter(@NonNull FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
             this.fragments = new ArrayList<>();
             this.titles = new ArrayList<>();
         }
 
-        void addFragments(Fragment fragment, String title)
-        {
+        void addFragments(Fragment fragment, String title) {
             this.fragments.add(fragment);
             this.titles.add(title);
         }
 
         @NonNull
         @Override
-        public Fragment getItem(int position)
-        {
+        public Fragment getItem(int position) {
             return this.fragments.get(position);
         }
 
         @Override
-        public int getCount()
-        {
+        public int getCount() {
             return this.fragments.size();
         }
 
         @Nullable
         @Override
-        public CharSequence getPageTitle(int position)
-        {
+        public CharSequence getPageTitle(int position) {
             return this.titles.get(position);
         }
     }

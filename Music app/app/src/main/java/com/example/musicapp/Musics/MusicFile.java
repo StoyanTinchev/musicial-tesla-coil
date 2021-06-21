@@ -58,8 +58,7 @@ public class MusicFile {
     }
 
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MusicFile musicFile = (MusicFile) o;
@@ -73,8 +72,7 @@ public class MusicFile {
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(album, title, duration, path, artist, id, color);
     }
 }
