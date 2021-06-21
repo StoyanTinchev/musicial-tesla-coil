@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -76,31 +75,22 @@ public class AlbumDetailsAdapter extends RecyclerView.Adapter<AlbumDetailsAdapte
                     .load(R.drawable.musicimage)
                     .into(holder.album_image);
         }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, PlayerActivity.class);
-                intent.putExtra("sender", "albumDetails");
-                intent.putExtra("position", position);
-                mContext.startActivity(intent);
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, PlayerActivity.class);
+            intent.putExtra("sender", "albumDetails");
+            intent.putExtra("position", position);
+            mContext.startActivity(intent);
         });
-        holder.menu_more.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                PopupMenu popupMenu = new PopupMenu(mContext, v);
-                popupMenu.getMenuInflater().inflate(R.menu.popup, popupMenu.getMenu());
-                popupMenu.show();
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if (item.getItemId() == R.id.delete)
-                            deleteFile(position, v);
+        holder.menu_more.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(mContext, v);
+            popupMenu.getMenuInflater().inflate(R.menu.popup, popupMenu.getMenu());
+            popupMenu.show();
+            popupMenu.setOnMenuItemClickListener(item -> {
+                if (item.getItemId() == R.id.delete)
+                    deleteFile(position, v);
 
-                        return true;
-                    }
-                });
-            }
+                return true;
+            });
         });
     }
 

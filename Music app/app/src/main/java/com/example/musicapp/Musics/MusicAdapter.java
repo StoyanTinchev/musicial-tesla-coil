@@ -101,28 +101,25 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
             intent.putExtra("position", position);
             mContext.startActivity(intent);
         });
-        holder.menuMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                if (PlayerActivity.curr_song != null && PlayerActivity.curr_song == mFiles.get(position)) {
-                    Snackbar.make(view, "Can't be deleted while playing!", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-
-                Uri contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                        Long.parseLong(mFiles.get(position).getId()));
-                File file = new File(mFiles.get(position).getPath());
-                boolean deleted = file.delete();
-                if (deleted) {
-                    mContext.getContentResolver().delete(contentUri, null, null);
-                    mFiles.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeChanged(position, mFiles.size());
-                    MainActivity.musicFiles.remove(position);
-                    Snackbar.make(view, "File deleted", Snackbar.LENGTH_LONG).show();
-                } else
-                    Snackbar.make(view, "Can't be deleted!", Snackbar.LENGTH_LONG).show();
+        holder.menuMore.setOnClickListener(view -> {
+            if (PlayerActivity.curr_song != null && PlayerActivity.curr_song == mFiles.get(position)) {
+                Snackbar.make(view, "Can't be deleted while playing!", Snackbar.LENGTH_LONG).show();
+                return;
             }
+
+            Uri contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                    Long.parseLong(mFiles.get(position).getId()));
+            File file = new File(mFiles.get(position).getPath());
+            boolean deleted = file.delete();
+            if (deleted) {
+                mContext.getContentResolver().delete(contentUri, null, null);
+                mFiles.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, mFiles.size());
+                MainActivity.musicFiles.remove(position);
+                Snackbar.make(view, "File deleted", Snackbar.LENGTH_LONG).show();
+            } else
+                Snackbar.make(view, "Can't be deleted!", Snackbar.LENGTH_LONG).show();
         });
     }
 

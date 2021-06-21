@@ -56,13 +56,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyHolder> {
                     .load(R.drawable.musicimage)
                     .into(holder.album_image);
         }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, AlbumDetails.class);
-                intent.putExtra("albumName", albumFiles.get(position).getAlbum());
-                mContext.startActivity(intent);
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, AlbumDetails.class);
+            intent.putExtra("albumName", albumFiles.get(position).getAlbum());
+            mContext.startActivity(intent);
         });
     }
 
