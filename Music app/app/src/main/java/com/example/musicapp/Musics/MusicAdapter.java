@@ -29,26 +29,33 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 
-public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder> {
+public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder>
+{
     public static ArrayList<MusicFile> mFiles;
     private final Context mContext;
 
-    public MusicAdapter(Context mContext, ArrayList<MusicFile> mFiles) {
+    public MusicAdapter(Context mContext, ArrayList<MusicFile> mFiles)
+    {
         this.mContext = mContext;
         MusicAdapter.mFiles = mFiles;
     }
 
-    public static boolean isPathValid(String path) {
-        try {
+    public static boolean isPathValid(String path)
+    {
+        try
+        {
             Paths.get(path);
-        } catch (InvalidPathException ex) {
+        }
+        catch (InvalidPathException ex)
+        {
             return false;
         }
 
         return true;
     }
 
-    public static byte[] getAlbumArt(String uri) {
+    public static byte[] getAlbumArt(String uri)
+    {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         retriever.setDataSource(uri);
         byte[] art = retriever.getEmbeddedPicture();
@@ -58,13 +65,15 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
         View view = LayoutInflater.from(mContext).inflate(R.layout.music_items, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position)
+    {
         if (mFiles.get(position).color == -1)
             mFiles.get(position).setColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.black));
         else if (mFiles.get(position).color == 0)
@@ -86,11 +95,14 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         if (mFiles.get(position).getPath() != null && isPathValid(mFiles.get(position).getPath()))
             image = getAlbumArt(mFiles.get(position).getPath());
 
-        if (image != null) {
+        if (image != null)
+        {
             Glide.with(mContext).asBitmap()
                     .load(image)
                     .into(holder.album_art);
-        } else {
+        }
+        else
+        {
             Glide.with(mContext)
                     .load(R.drawable.musicimage)
                     .into(holder.album_art);
@@ -103,7 +115,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         });
         holder.menuMore.setOnClickListener(view ->
         {
-            if (PlayerActivity.curr_song != null && PlayerActivity.curr_song == mFiles.get(position)) {
+            if (PlayerActivity.curr_song != null && PlayerActivity.curr_song == mFiles.get(position))
+            {
                 Snackbar.make(view, "Can't be deleted while playing!", Snackbar.LENGTH_LONG).show();
                 return;
             }
@@ -112,34 +125,40 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
                     Long.parseLong(mFiles.get(position).getId()));
             File file = new File(mFiles.get(position).getPath());
             boolean deleted = file.delete();
-            if (deleted) {
+            if (deleted)
+            {
                 mContext.getContentResolver().delete(contentUri, null, null);
                 mFiles.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, mFiles.size());
                 MainActivity.musicFiles.remove(position);
                 Snackbar.make(view, "File deleted", Snackbar.LENGTH_LONG).show();
-            } else
+            }
+            else
                 Snackbar.make(view, "Can't be deleted!", Snackbar.LENGTH_LONG).show();
         });
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return mFiles.size();
     }
 
-    public void updateList(ArrayList<MusicFile> musicFileArrayList) {
+    public void updateList(ArrayList<MusicFile> musicFileArrayList)
+    {
         mFiles = new ArrayList<>();
         mFiles.addAll(musicFileArrayList);
         notifyDataSetChanged();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder
+    {
         TextView file_name, album_name;
         ImageView album_art, menuMore;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView)
+        {
             super(itemView);
             file_name = itemView.findViewById(R.id.music_file_name);
             album_name = itemView.findViewById(R.id.album_file_name);

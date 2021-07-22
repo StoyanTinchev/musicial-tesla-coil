@@ -18,25 +18,29 @@ import com.example.musicapp.R;
 import java.util.ArrayList;
 
 
-public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyHolder> {
+public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyHolder>
+{
     private final Context mContext;
     private final ArrayList<MusicFile> albumFiles;
     View view;
 
-    public AlbumAdapter(Context mContext, ArrayList<MusicFile> albumFiles) {
+    public AlbumAdapter(Context mContext, ArrayList<MusicFile> albumFiles)
+    {
         this.mContext = mContext;
         this.albumFiles = albumFiles;
     }
 
     @NonNull
     @Override
-    public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
         view = LayoutInflater.from(mContext).inflate(R.layout.album_item, parent, false);
         return new MyHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyHolder holder, int position)
+    {
         String album_name_text = albumFiles.get(position).getAlbum();
 
         if (album_name_text.length() > 20)
@@ -47,11 +51,14 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyHolder> {
         if (albumFiles.get(position).getPath() != null && MusicAdapter.isPathValid(albumFiles.get(position).getPath()))
             image = MusicAdapter.getAlbumArt(albumFiles.get(position).getPath());
 
-        if (image != null) {
+        if (image != null)
+        {
             Glide.with(mContext).asBitmap()
                     .load(image)
                     .into(holder.album_image);
-        } else {
+        }
+        else
+        {
             Glide.with(mContext)
                     .load(R.drawable.musicimage)
                     .into(holder.album_image);
@@ -65,15 +72,18 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyHolder> {
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return albumFiles.size();
     }
 
-    public static class MyHolder extends RecyclerView.ViewHolder {
+    public static class MyHolder extends RecyclerView.ViewHolder
+    {
         ImageView album_image;
         TextView album_name;
 
-        public MyHolder(@NonNull View itemView) {
+        public MyHolder(@NonNull View itemView)
+        {
             super(itemView);
             album_image = itemView.findViewById(R.id.album_image);
             album_name = itemView.findViewById(R.id.album_name);

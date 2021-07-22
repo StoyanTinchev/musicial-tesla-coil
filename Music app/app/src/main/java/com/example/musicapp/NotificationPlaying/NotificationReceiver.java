@@ -9,13 +9,17 @@ import static com.example.musicapp.NotificationPlaying.ApplicationClass.ACTION_P
 import static com.example.musicapp.NotificationPlaying.ApplicationClass.ACTION_PREVIOUS;
 import static com.example.musicapp.NotificationPlaying.ApplicationClass.CLOSE_NOTIFICATION;
 
-public class NotificationReceiver extends BroadcastReceiver {
+public class NotificationReceiver extends BroadcastReceiver
+{
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(Context context, Intent intent)
+    {
         String actionName = intent.getAction();
         Intent serviceIntent = new Intent(context, MusicService.class);
-        if (actionName != null) {
-            switch (actionName) {
+        if (actionName != null)
+        {
+            switch (actionName)
+            {
                 case ACTION_PLAY:
                     serviceIntent.putExtra("ActionName", "playPause");
                     context.startService(serviceIntent);

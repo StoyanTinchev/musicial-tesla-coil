@@ -5,7 +5,8 @@ import android.net.Uri;
 import java.io.File;
 import java.util.Objects;
 
-public class MusicFile {
+public class MusicFile
+{
     private final String album;
     private final String title;
     private final String duration;
@@ -15,7 +16,8 @@ public class MusicFile {
     public int color = -1;
 
     public MusicFile(String album, String title, String duration, String path,
-                     String artist, String id) {
+                     String artist, String id)
+    {
         this.album = album;
         this.title = title;
         this.duration = duration;
@@ -24,41 +26,50 @@ public class MusicFile {
         this.id = id;
     }
 
-    public Uri getUri() {
+    public Uri getUri()
+    {
         File file = new File(path);
         return Uri.fromFile(file);
     }
 
-    public void setColor(int color) {
+    public void setColor(int color)
+    {
         this.color = color;
     }
 
-    public String getId() {
+    public String getId()
+    {
         return id;
     }
 
-    public String getTitle() {
+    public String getTitle()
+    {
         return title;
     }
 
-    public String getPath() {
+    public String getPath()
+    {
         return path;
     }
 
-    public String getAlbum() {
+    public String getAlbum()
+    {
         return album;
     }
 
-    public String getArtist() {
+    public String getArtist()
+    {
         return artist;
     }
 
-    public String getDuration() {
+    public String getDuration()
+    {
         return duration;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o)
+    {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MusicFile musicFile = (MusicFile) o;
@@ -72,7 +83,8 @@ public class MusicFile {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return Objects.hash(album, title, duration, path, artist, id, color);
     }
 }

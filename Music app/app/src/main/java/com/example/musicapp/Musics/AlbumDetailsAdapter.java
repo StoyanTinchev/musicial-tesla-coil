@@ -25,25 +25,29 @@ import com.google.android.material.snackbar.Snackbar;
 import java.io.File;
 import java.util.ArrayList;
 
-public class AlbumDetailsAdapter extends RecyclerView.Adapter<AlbumDetailsAdapter.MyHolder> {
+public class AlbumDetailsAdapter extends RecyclerView.Adapter<AlbumDetailsAdapter.MyHolder>
+{
     public static ArrayList<MusicFile> albumFiles;
     private final Context mContext;
     View view;
 
-    public AlbumDetailsAdapter(Context mContext, ArrayList<MusicFile> albumFiles) {
+    public AlbumDetailsAdapter(Context mContext, ArrayList<MusicFile> albumFiles)
+    {
         this.mContext = mContext;
         AlbumDetailsAdapter.albumFiles = albumFiles;
     }
 
     @NonNull
     @Override
-    public AlbumDetailsAdapter.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AlbumDetailsAdapter.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
         view = LayoutInflater.from(mContext).inflate(R.layout.music_items, parent, false);
         return new AlbumDetailsAdapter.MyHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AlbumDetailsAdapter.MyHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AlbumDetailsAdapter.MyHolder holder, int position)
+    {
         if (albumFiles.get(position).color == -1)
             albumFiles.get(position).setColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.black));
         else if (albumFiles.get(position).color == 0)
@@ -66,11 +70,14 @@ public class AlbumDetailsAdapter extends RecyclerView.Adapter<AlbumDetailsAdapte
         if (albumFiles.get(position).getPath() != null && MusicAdapter.isPathValid(albumFiles.get(position).getPath()))
             image = MusicAdapter.getAlbumArt(albumFiles.get(position).getPath());
 
-        if (image != null) {
+        if (image != null)
+        {
             Glide.with(mContext).asBitmap()
                     .load(image)
                     .into(holder.album_image);
-        } else {
+        }
+        else
+        {
             Glide.with(mContext)
                     .load(R.drawable.musicimage)
                     .into(holder.album_image);
@@ -98,36 +105,43 @@ public class AlbumDetailsAdapter extends RecyclerView.Adapter<AlbumDetailsAdapte
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return albumFiles.size();
     }
 
-    public void deleteFile(int position, View view) {
+    public void deleteFile(int position, View view)
+    {
         Uri contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 Long.parseLong(albumFiles.get(position).getId()));
         File file = new File(albumFiles.get(position).getPath());
         boolean deleted = file.delete(); // delete file
-        if (deleted) {
+        if (deleted)
+        {
             mContext.getContentResolver().delete(contentUri, null, null);
             albumFiles.remove(position);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, albumFiles.size());
             Snackbar.make(view, "File deleted", Snackbar.LENGTH_LONG).show();
-        } else
+        }
+        else
             Snackbar.make(view, "Can't be deleted!", Snackbar.LENGTH_LONG).show();
     }
 
-    public void updateList(ArrayList<MusicFile> musicFileArrayList) {
+    public void updateList(ArrayList<MusicFile> musicFileArrayList)
+    {
         albumFiles = new ArrayList<>();
         albumFiles.addAll(musicFileArrayList);
         notifyDataSetChanged();
     }
 
-    public static class MyHolder extends RecyclerView.ViewHolder {
+    public static class MyHolder extends RecyclerView.ViewHolder
+    {
         ImageView album_image, menu_more;
         TextView song_title, album_name;
 
-        public MyHolder(@NonNull View itemView) {
+        public MyHolder(@NonNull View itemView)
+        {
             super(itemView);
             album_image = itemView.findViewById(R.id.music_img);
             song_title = itemView.findViewById(R.id.music_file_name);

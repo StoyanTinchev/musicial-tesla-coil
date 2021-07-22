@@ -16,20 +16,24 @@ import com.example.musicapp.Musics.AlbumAdapter;
 import com.example.musicapp.Musics.MusicFile;
 import com.example.musicapp.R;
 
-public class AlbumFragment extends Fragment {
+public class AlbumFragment extends Fragment
+{
     RecyclerView recyclerView;
     AlbumAdapter albumAdapter;
 
-    public AlbumFragment() {
+    public AlbumFragment()
+    {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
         View view = inflater.inflate(R.layout.fragment_album, container, false);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        if (MainActivity.albums.size() > 0) {
+        if (MainActivity.albums.size() > 0)
+        {
             albumAdapter = new AlbumAdapter(getContext(), MainActivity.albums);
             recyclerView.setAdapter(albumAdapter);
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -39,23 +43,28 @@ public class AlbumFragment extends Fragment {
         return view;
     }
 
-    private ItemTouchHelper.Callback createHelperCallback() {
+    private ItemTouchHelper.Callback createHelperCallback()
+    {
         return new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP |
-                ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, 0) {
+                ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, 0)
+        {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView,
-                                  @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                                  @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target)
+            {
                 moveItem(viewHolder.getAdapterPosition(), target.getAdapterPosition());
                 return true;
             }
 
             @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
+            {
             }
         };
     }
 
-    public void moveItem(int oldPos, int newPos) {
+    public void moveItem(int oldPos, int newPos)
+    {
         MusicFile musicFile = MainActivity.musicFiles.get(oldPos);
         MainActivity.musicFiles.remove(oldPos);
         MainActivity.musicFiles.add(newPos, musicFile);

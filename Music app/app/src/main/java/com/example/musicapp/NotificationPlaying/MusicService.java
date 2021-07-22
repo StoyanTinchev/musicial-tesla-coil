@@ -24,7 +24,8 @@ import com.example.musicapp.R;
 
 import java.util.ArrayList;
 
-public class MusicService extends Service implements MediaPlayer.OnCompletionListener {
+public class MusicService extends Service implements MediaPlayer.OnCompletionListener
+{
     public static MediaPlayer mediaPlayer;
     IBinder mBinder = new MyBinder();
     ArrayList<MusicFile> musicFiles = new ArrayList<>();
@@ -35,51 +36,61 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     private Notification notification;
 
     @Override
-    public void onCreate() {
+    public void onCreate()
+    {
         super.onCreate();
         mediaSessionCompat = new MediaSessionCompat(getBaseContext(), "My Audio");
     }
 
     @Nullable
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(Intent intent)
+    {
         Log.e("Bind", "Method");
         return mBinder;
     }
 
-    public void pause() {
+    public void pause()
+    {
         mediaPlayer.pause();
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(Intent intent, int flags, int startId)
+    {
         int myPosition = intent.getIntExtra("servicePosition", -1);
         String actionName = intent.getStringExtra("ActionName");
         int sameSong = intent.getIntExtra("sameSong", 0);
         if (myPosition != -1 && sameSong == 0)
             playMedia(myPosition);
-        if (actionName != null) {
-            switch (actionName) {
+        if (actionName != null)
+        {
+            switch (actionName)
+            {
                 case "playPause":
-                    if (actionPlaying != null) {
+                    if (actionPlaying != null)
+                    {
                         Log.e("Inside", "ActionPlayPause");
                         actionPlaying.playPauseBtnClicked();
                     }
                     break;
                 case "next":
-                    if (actionPlaying != null) {
+                    if (actionPlaying != null)
+                    {
                         Log.e("Inside", "ActionNext");
                         actionPlaying.nextBtnClicked();
                     }
                     break;
                 case "previous":
-                    if (actionPlaying != null) {
+                    if (actionPlaying != null)
+                    {
                         Log.e("Inside", "ActionPrevious");
                         actionPlaying.prevBtnClicked();
                     }
                     break;
                 case "close_notification":
-                    if (actionPlaying != null && notification != null) {
+                    if (actionPlaying != null && notification != null)
+                    {
                         Log.e("Inside", "ActionClose");
                         stopForeground(true);
                     }
@@ -89,65 +100,82 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         return START_STICKY;
     }
 
-    private void playMedia(int StartPosition) {
+    private void playMedia(int StartPosition)
+    {
         musicFiles = PlayerActivity.listSongs;
         position = StartPosition;
-        if (mediaPlayer != null) {
+        if (mediaPlayer != null)
+        {
             mediaPlayer.stop();
             mediaPlayer.release();
-            if (musicFiles != null) {
+            if (musicFiles != null)
+            {
                 createMediaPlayer(position);
                 mediaPlayer.start();
             }
-        } else {
+        }
+        else
+        {
             createMediaPlayer(position);
             mediaPlayer.start();
         }
     }
 
-    public void start() {
+    public void start()
+    {
         mediaPlayer.start();
     }
 
-    public boolean isPlaying() {
+    public boolean isPlaying()
+    {
         return mediaPlayer.isPlaying();
     }
 
-    public void stop() {
+    public void stop()
+    {
         mediaPlayer.stop();
     }
 
-    public void release() {
+    public void release()
+    {
         mediaPlayer.release();
     }
 
-    public int getDuration() {
+    public int getDuration()
+    {
         return mediaPlayer.getDuration();
     }
 
-    public void seekTo(int position) {
+    public void seekTo(int position)
+    {
         mediaPlayer.seekTo(position);
     }
 
-    public int getCurrentPosition() {
+    public int getCurrentPosition()
+    {
         return mediaPlayer.getCurrentPosition();
     }
 
-    public void createMediaPlayer(int positionInner) {
+    public void createMediaPlayer(int positionInner)
+    {
         position = positionInner;
         uri = musicFiles.get(position).getUri();
         mediaPlayer = MediaPlayer.create(getBaseContext(), uri);
     }
 
-    public void OnCompleted() {
+    public void OnCompleted()
+    {
         mediaPlayer.setOnCompletionListener(this);
     }
 
     @Override
-    public void onCompletion(MediaPlayer mp) {
-        if (actionPlaying != null) {
+    public void onCompletion(MediaPlayer mp)
+    {
+        if (actionPlaying != null)
+        {
             actionPlaying.nextBtnClicked();
-            if (mediaPlayer != null) {
+            if (mediaPlayer != null)
+            {
                 createMediaPlayer(position);
                 mediaPlayer.start();
                 OnCompleted();
@@ -155,11 +183,13 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         }
     }
 
-    public void setCallBack(ActionPlaying actionPlaying) {
+    public void setCallBack(ActionPlaying actionPlaying)
+    {
         this.actionPlaying = actionPlaying;
     }
 
-    public void showNotification(int playPauseBtn) {
+    public void showNotification(int playPauseBtn)
+    {
         Intent prevIntent = new Intent(this, NotificationReceiver.class)
                 .setAction(ApplicationClass.ACTION_PREVIOUS);
         PendingIntent prevPending = PendingIntent
@@ -186,9 +216,12 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
 
         byte[] picture = MusicAdapter.getAlbumArt(musicFiles.get(position).getPath());
         Bitmap thumb;
-        if (picture != null) {
+        if (picture != null)
+        {
             thumb = BitmapFactory.decodeByteArray(picture, 0, picture.length);
-        } else {
+        }
+        else
+        {
             thumb = BitmapFactory.decodeResource(getResources(), R.drawable.musicimage);
         }
         notification = new NotificationCompat.Builder(this,
@@ -211,8 +244,10 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         startForeground(2, notification);
     }
 
-    public class MyBinder extends Binder {
-        public MusicService getService() {
+    public class MyBinder extends Binder
+    {
+        public MusicService getService()
+        {
             return MusicService.this;
         }
     }
