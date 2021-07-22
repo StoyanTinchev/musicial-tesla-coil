@@ -75,17 +75,20 @@ public class AlbumDetailsAdapter extends RecyclerView.Adapter<AlbumDetailsAdapte
                     .load(R.drawable.musicimage)
                     .into(holder.album_image);
         }
-        holder.itemView.setOnClickListener(v -> {
+        holder.itemView.setOnClickListener(v ->
+        {
             Intent intent = new Intent(mContext, PlayerActivity.class);
             intent.putExtra("sender", "albumDetails");
             intent.putExtra("position", position);
             mContext.startActivity(intent);
         });
-        holder.menu_more.setOnClickListener(v -> {
+        holder.menu_more.setOnClickListener(v ->
+        {
             PopupMenu popupMenu = new PopupMenu(mContext, v);
             popupMenu.getMenuInflater().inflate(R.menu.popup, popupMenu.getMenu());
             popupMenu.show();
-            popupMenu.setOnMenuItemClickListener(item -> {
+            popupMenu.setOnMenuItemClickListener(item ->
+            {
                 if (item.getItemId() == R.id.delete)
                     deleteFile(position, v);
 

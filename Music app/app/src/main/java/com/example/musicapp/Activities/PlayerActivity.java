@@ -98,7 +98,8 @@ public class PlayerActivity extends AppCompatActivity implements
                 new Handler(Looper.getMainLooper()).postDelayed(this, 10);
             }
         });
-        shuffleBtn.setOnClickListener(v -> {
+        shuffleBtn.setOnClickListener(v ->
+        {
             if (MainActivity.shuffleBoolean) {
                 MainActivity.shuffleBoolean = false;
                 shuffleBtn.setImageResource(R.drawable.ic_shuffle_off);
@@ -107,7 +108,8 @@ public class PlayerActivity extends AppCompatActivity implements
                 shuffleBtn.setImageResource(R.drawable.ic_shuffle_on);
             }
         });
-        repeatBtn.setOnClickListener(v -> {
+        repeatBtn.setOnClickListener(v ->
+        {
             if (MainActivity.repeatBoolean) {
                 MainActivity.repeatBoolean = false;
                 repeatBtn.setImageResource(R.drawable.ic_repeat_off);

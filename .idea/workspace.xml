@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
+    <option name="autoReloadType" value="NONE" />
   </component>
   <component name="BranchesTreeState">
     <expand>
@@ -22,7 +22,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2a75306-2553-41ef-b376-07c80db1627a" name="Default Changelist" comment="update readme management tag" />
+    <list default="true" id="d2a75306-2553-41ef-b376-07c80db1627a" name="Default Changelist" comment="update readme management tag">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Music app/app/src/main/java/com/example/musicapp/NotificationPlaying/ApplicationClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/Music app/app/src/main/java/com/example/musicapp/NotificationPlaying/ApplicationClass.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,6 +53,9 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="KotlinMultiplatform">
+    <allAvailableExecutables />
+  </component>
   <component name="ProjectId" id="1qvsb2wYDXB93mPNngfVNEHbQQA" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -64,7 +70,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Music app" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -186,5 +192,24 @@
     <MESSAGE value="dev documentation" />
     <MESSAGE value="update readme management tag" />
     <option name="LAST_COMMIT_MESSAGE" value="update readme management tag" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="529" y="1280" width="800" height="719" key="#Plugins" timestamp="1626873045067">
+      <screen x="0" y="1080" width="1920" height="1080" />
+    </state>
+    <state x="529" y="1280" width="800" height="719" key="#Plugins/0.1080.1920.1080/0.0.1920.1080@0.1080.1920.1080" timestamp="1626873045067" />
+    <state x="418" y="211" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1626947438078">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="418" y="211" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1626947438078" />
+    <state x="746" y="349" width="424" height="491" key="FileChooserDialogImpl" timestamp="1626947566234">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="746" y="330" width="424" height="491" key="FileChooserDialogImpl/0.1080.1920.1080/0.0.1920.1080@0.0.1920.1080" timestamp="1626874081081" />
+    <state x="746" y="349" key="FileChooserDialogImpl/0.27.1920.1053@0.27.1920.1053" timestamp="1626947566234" />
+    <state x="597" y="1367" width="672" height="678" key="search.everywhere.popup" timestamp="1626873005301">
+      <screen x="0" y="1080" width="1920" height="1080" />
+    </state>
+    <state x="597" y="1367" width="672" height="678" key="search.everywhere.popup/0.1080.1920.1080/0.0.1920.1080@0.1080.1920.1080" timestamp="1626873005301" />
   </component>
 </project>

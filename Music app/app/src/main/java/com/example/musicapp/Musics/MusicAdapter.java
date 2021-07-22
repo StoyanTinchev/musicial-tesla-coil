@@ -101,7 +101,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
             intent.putExtra("position", position);
             mContext.startActivity(intent);
         });
-        holder.menuMore.setOnClickListener(view -> {
+        holder.menuMore.setOnClickListener(view ->
+        {
             if (PlayerActivity.curr_song != null && PlayerActivity.curr_song == mFiles.get(position)) {
                 Snackbar.make(view, "Can't be deleted while playing!", Snackbar.LENGTH_LONG).show();
                 return;
