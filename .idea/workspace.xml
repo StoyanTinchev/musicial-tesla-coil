@@ -22,10 +22,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2a75306-2553-41ef-b376-07c80db1627a" name="Default Changelist" comment="update readme management tag">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Music app/app/src/main/java/com/example/musicapp/NotificationPlaying/ApplicationClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/Music app/app/src/main/java/com/example/musicapp/NotificationPlaying/ApplicationClass.java" afterDir="false" />
-    </list>
+    <list default="true" id="d2a75306-2553-41ef-b376-07c80db1627a" name="Default Changelist" comment="update readme management tag" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -70,7 +67,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Music app" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
